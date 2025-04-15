@@ -109,7 +109,9 @@ python manage.py runserver
 После запуска сервера документация API доступна по адресам:
 - Swagger: http://127.0.0.1:8000/docs/
 - ReDoc: http://127.0.0.1:8000/redoc/
-- Markdown: [Спецификация API в формате Markdown](docs/api_specification.md)
+- Markdown: 
+  - [Подробная спецификация API](docs/api_specification.md)
+  - [Краткий обзор моделей и методов API](docs/api_overview.md)
 
 ## Основные компоненты
 

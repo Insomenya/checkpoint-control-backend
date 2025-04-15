@@ -1,0 +1,23 @@
+[
+  {
+    "model": "checkpoints.zone",
+    "pk": 1,
+    "fields": {
+      "name": "КПП охраны"
+    }
+  },
+  {
+    "model": "checkpoints.zone",
+    "pk": 2,
+    "fields": {
+      "name": "Бюро пропусков"
+    }
+  },
+  {
+    "model": "checkpoints.zone",
+    "pk": 3,
+    "fields": {
+      "name": "Склад"
+    }
+  }
+] 

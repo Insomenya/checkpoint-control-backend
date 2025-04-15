@@ -9,6 +9,7 @@ from .serializers import GoodSerializer, ExpeditionSerializer, ExpeditionListSer
 from confirmations.serializers import ConfirmationWithExpeditionSerializer
 from django.shortcuts import get_object_or_404
 from drf_yasg.utils import swagger_auto_schema
+from drf_yasg import openapi
 from rest_framework.views import APIView
 from datetime import date
 from django.db.models import Q
@@ -53,7 +54,49 @@ class ExpeditionCreateView(generics.CreateAPIView):
     serializer_class = ExpeditionSerializer
     permission_classes = [IsAuthenticated]
     
-    @swagger_auto_schema(operation_summary='Создать новую экспедицию')
+    @swagger_auto_schema(
+        operation_summary='Создать новую экспедицию',
+        request_body=openapi.Schema(
+            type=openapi.TYPE_OBJECT,
+            required=['name', 'direction', 'sender_id', 'receiver_id', 'type', 'full_name', 'phone_number'],
+            properties={
+                'name': openapi.Schema(type=openapi.TYPE_STRING, description='Наименование экспедиции'),
+                'direction': openapi.Schema(type=openapi.TYPE_STRING, enum=['IN', 'OUT'], description='Направление (IN - въезд, OUT - выезд)'),
+                'sender_id': openapi.Schema(type=openapi.TYPE_INTEGER, description='ID организации-отправителя'),
+                'receiver_id': openapi.Schema(type=openapi.TYPE_INTEGER, description='ID организации-получателя'),
+                'type': openapi.Schema(type=openapi.TYPE_STRING, enum=['auto', 'selfauto', 'selfout'], description='Тип экспедиции'),
+                'full_name': openapi.Schema(type=openapi.TYPE_STRING, description='ФИО водителя/представителя'),
+                'phone_number': openapi.Schema(type=openapi.TYPE_STRING, description='Номер телефона'),
+                'license_plate': openapi.Schema(type=openapi.TYPE_STRING, description='Гос. номер ТС (для auto и selfauto)'),
+                'vehicle_model': openapi.Schema(type=openapi.TYPE_STRING, description='Модель ТС (для auto и selfauto)'),
+                'passport_number': openapi.Schema(type=openapi.TYPE_STRING, description='Номер паспорта'),
+                'invoices': openapi.Schema(
+                    type=openapi.TYPE_ARRAY,
+                    items=openapi.Schema(
+                        type=openapi.TYPE_OBJECT,
+                        required=['number', 'cargo_description', 'goods'],
+                        properties={
+                            'number': openapi.Schema(type=openapi.TYPE_STRING, description='Номер накладной'),
+                            'cargo_description': openapi.Schema(type=openapi.TYPE_STRING, description='Описание груза'),
+                            'goods': openapi.Schema(
+                                type=openapi.TYPE_ARRAY,
+                                items=openapi.Schema(
+                                    type=openapi.TYPE_OBJECT,
+                                    required=['name'],
+                                    properties={
+                                        'name': openapi.Schema(type=openapi.TYPE_STRING, description='Название ТМЦ'),
+                                        'description': openapi.Schema(type=openapi.TYPE_STRING, description='Описание ТМЦ'),
+                                        'unit_of_measurement': openapi.Schema(type=openapi.TYPE_STRING, enum=['шт', 'кг', 'л', 'м'], description='Единица измерения'),
+                                        'quantity': openapi.Schema(type=openapi.TYPE_NUMBER, description='Количество (по умолчанию: 1)')
+                                    }
+                                )
+                            )
+                        }
+                    )
+                )
+            }
+        )
+    )
     def post(self, request, *args, **kwargs):
         serializer = self.get_serializer(data=request.data)
         serializer.is_valid(raise_exception=True)

@@ -1,6 +1,7 @@
 from rest_framework import serializers
 from .models import Good, Expedition, Invoice, InvoiceGood
 from organizations.serializers import OrganizationSerializer
+from organizations.models import Organization
 
 class GoodSerializer(serializers.ModelSerializer):
     unit_of_measurement_display = serializers.CharField(source='get_unit_of_measurement_display', read_only=True)
@@ -53,7 +54,8 @@ class ExpeditionSerializer(serializers.ModelSerializer):
     type_display = serializers.CharField(source='get_type_display', read_only=True)
     
     # Поля для создания экспедиции с накладными и товарами
-    invoices_data = serializers.ListField(write_only=True, required=False)
+    sender_id = serializers.IntegerField(write_only=True)
+    receiver_id = serializers.IntegerField(write_only=True)
     
     class Meta:
         model = Expedition
@@ -63,16 +65,28 @@ class ExpeditionSerializer(serializers.ModelSerializer):
             'receiver', 'receiver_name', 'created_by', 
             'full_name', 'passport_number', 'phone_number', 
             'license_plate', 'vehicle_model', 'start_date', 
-            'end_date', 'invoices', 'invoices_data'
+            'end_date', 'invoices', 'sender_id', 'receiver_id'
         ]
-        read_only_fields = ['created_by', 'start_date', 'end_date']
+        read_only_fields = ['created_by', 'start_date', 'end_date', 'sender', 'receiver']
     
     def create(self, validated_data):
+        # Получаем ID отправителя и получателя
+        sender_id = validated_data.pop('sender_id')
+        receiver_id = validated_data.pop('receiver_id')
+        
+        # Получаем объекты организаций
+        sender = Organization.objects.get(id=sender_id)
+        receiver = Organization.objects.get(id=receiver_id)
+        
         # Извлекаем данные о накладных
-        invoices_data = validated_data.pop('invoices_data', [])
+        invoices_data = validated_data.pop('invoices', [])
         
         # Создаем экспедицию
-        expedition = Expedition.objects.create(**validated_data)
+        expedition = Expedition.objects.create(
+            sender=sender,
+            receiver=receiver,
+            **validated_data
+        )
         
         # Создаем накладные и связанные товары
         for invoice_data in invoices_data:

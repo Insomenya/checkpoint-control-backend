@@ -49,6 +49,7 @@ class User(AbstractUser):
     role = models.CharField("Роль", max_length=50, choices=ROLES, default=ROLES[0][0])
     is_password_set = models.BooleanField("Пароль установлен", default=False)
     checkpoint = models.ForeignKey('checkpoints.Checkpoint', verbose_name="КПП", on_delete=models.SET_NULL, null=True, blank=True)
+    password_reset_token = models.CharField("Токен сброса пароля", max_length=128, null=True, blank=True)
     
     # Устанавливаем поле email и phone_number как необязательные
     email = models.EmailField(_("Email"), blank=True, null=True)
@@ -67,3 +68,15 @@ class User(AbstractUser):
         """Генерирует уникальную ссылку для регистрации пользователя"""
         token = get_random_string(length=32)
         return token
+    
+    def generate_password_reset_token(self):
+        """Генерирует уникальный токен для сброса пароля и сохраняет его в модели"""
+        token = get_random_string(length=32)
+        self.password_reset_token = token
+        self.save(update_fields=['password_reset_token'])
+        return token
+    
+    def clear_password_reset_token(self):
+        """Очищает токен сброса пароля после его использования"""
+        self.password_reset_token = None
+        self.save(update_fields=['password_reset_token'])

@@ -6,14 +6,9 @@ from .serializers import UserDetailSerializer, UserSignupSerializer, SetPassword
 from django.shortcuts import get_object_or_404
 from drf_yasg.utils import swagger_auto_schema
 from rest_framework.views import APIView
-from django.utils.crypto import get_random_string
-import uuid
+from drf_yasg import openapi
 
 User = get_user_model()
-
-# Хранение временных токенов для сброса пароля
-# В реальном проекте лучше использовать Redis или другое хранилище
-USER_TOKENS = {}
 
 class UserDetailsView(generics.RetrieveAPIView):
     serializer_class = UserDetailSerializer
@@ -27,41 +22,79 @@ class UserSignupView(generics.CreateAPIView):
     serializer_class = UserSignupSerializer
     permission_classes = [IsAuthenticated, IsAdminUser]
     
-    @swagger_auto_schema(operation_summary='Зарегистрировать нового пользователя')
+    @swagger_auto_schema(
+        operation_summary='Зарегистрировать нового пользователя',
+        responses={
+            201: openapi.Response(
+                description="Пользователь успешно создан",
+                schema=openapi.Schema(
+                    type=openapi.TYPE_OBJECT,
+                    properties={
+                        'user_id': openapi.Schema(type=openapi.TYPE_INTEGER, description='ID созданного пользователя'),
+                        'username': openapi.Schema(type=openapi.TYPE_STRING, description='Имя пользователя'),
+                        'token': openapi.Schema(type=openapi.TYPE_STRING, description='Токен для установки пароля'),
+                        'signup_link': openapi.Schema(type=openapi.TYPE_STRING, description='Полная ссылка для установки пароля')
+                    }
+                )
+            )
+        }
+    )
     def post(self, request, *args, **kwargs):
         serializer = self.serializer_class(data=request.data)
         
         if serializer.is_valid():
             user = serializer.save()
             # Генерируем уникальный токен для установки пароля
-            token = str(uuid.uuid4())
-            USER_TOKENS[token] = user.id
+            token = user.generate_password_reset_token()
             
-            return Response(
-                {"signup_link": f"/auth/setpass/{token}"},
-                status=status.HTTP_201_CREATED
-            )
+            # Получаем хост из запроса для формирования полного URL
+            protocol = 'https' if request.is_secure() else 'http'
+            host = request.get_host()
+            
+            return Response({
+                "user_id": user.id,
+                "username": user.username,
+                "token": token,
+                "signup_link": f"{protocol}://{host}/auth/setpass/{token}"
+            }, status=status.HTTP_201_CREATED)
         
         return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
 
 class SetPasswordView(generics.GenericAPIView):
     serializer_class = SetPasswordSerializer
     
-    @swagger_auto_schema(operation_summary='Установить пароль при первом входе')
+    @swagger_auto_schema(
+        operation_summary='Установить пароль при первом входе',
+        request_body=SetPasswordSerializer,
+        responses={
+            200: openapi.Response(
+                description="Пароль успешно установлен",
+                schema=openapi.Schema(
+                    type=openapi.TYPE_OBJECT,
+                    properties={
+                        'message': openapi.Schema(type=openapi.TYPE_STRING, description='Сообщение об успешной установке пароля')
+                    }
+                )
+            ),
+            400: openapi.Response(
+                description="Ошибка в запросе",
+                schema=openapi.Schema(
+                    type=openapi.TYPE_OBJECT,
+                    properties={
+                        'error': openapi.Schema(type=openapi.TYPE_STRING, description='Описание ошибки')
+                    }
+                )
+            ),
+            404: "Токен не найден"
+        }
+    )
     def post(self, request, token):
-        user_id = USER_TOKENS.get(token)
-        
-        if not user_id:
-            return Response(
-                {"error": "Неверная ссылка для установки пароля или срок ее действия истек"},
-                status=status.HTTP_400_BAD_REQUEST
-            )
+        # Ищем пользователя по токену
+        user = get_object_or_404(User, password_reset_token=token)
         
         serializer = self.serializer_class(data=request.data)
         
         if serializer.is_valid():
-            user = get_object_or_404(User, id=user_id)
-            
             if user.is_password_set:
                 return Response(
                     {"error": "Пароль уже установлен для этого пользователя"},
@@ -70,10 +103,8 @@ class SetPasswordView(generics.GenericAPIView):
             
             user.set_password(serializer.validated_data['password'])
             user.is_password_set = True
-            user.save()
-            
-            # Удаляем использованный токен
-            USER_TOKENS.pop(token)
+            # Очищаем токен, чтобы его нельзя было использовать повторно
+            user.clear_password_reset_token()
             
             return Response(
                 {"message": "Пароль успешно установлен"},

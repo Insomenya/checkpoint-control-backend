@@ -49,9 +49,12 @@ DEBUG=True
 2. Выполните миграции для создания структуры базы данных:
 
 ```bash
-python manage.py makemigrations
+python manage.py makemigrations authentication
+python manage.py makemigrations organizations checkpoints expeditions confirmations
 python manage.py migrate
 ```
+
+> **Примечание**: При возникновении ошибки с несогласованностью миграций (InconsistentMigrationHistory), рекомендуется удалить файл базы данных `db.sqlite3` и выполнить миграции заново.
 
 3. Загрузите начальные данные для зон:
 
@@ -63,6 +66,32 @@ python manage.py loaddata fixtures/zones.json
 
 ```bash
 python manage.py createsuperuser
+```
+
+Если команда выше вызывает ошибки, можно создать суперпользователя через скрипт:
+
+```bash
+# Создайте файл create_superuser.py с содержимым:
+import os
+import django
+
+os.environ.setdefault('DJANGO_SETTINGS_MODULE', 'checkpoint_control.settings')
+django.setup()
+
+from django.contrib.auth import get_user_model
+
+User = get_user_model()
+
+# Создаем суперпользователя
+User.objects.create_superuser(
+    username='admin',
+    role='admin',
+    password='admin123'
+)
+print("Суперпользователь успешно создан: admin/admin123")
+
+# Запустите скрипт
+python create_superuser.py
 ```
 
 ## Запуск

@@ -141,6 +141,3 @@ python manage.py runserver
 - `GET /confirmed/zone/{zone_id}` - Получение списка подтверждений для зоны
 - `GET /confirmed/checkpoint/{checkpoint_id}` - Получение списка подтверждений для КПП
 
-## Лицензия
-
-[MIT](https://choosealicense.com/licenses/mit/)

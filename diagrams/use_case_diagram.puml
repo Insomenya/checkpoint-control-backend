@@ -1,0 +1,113 @@
+@startuml Use Case Diagram
+
+title Диаграмма вариантов использования Системы контроля КПП
+
+skinparam actorStyle awesome
+skinparam usecaseBackgroundColor LightYellow
+skinparam usecaseBorderColor Gold
+
+left to right direction
+
+actor "Администратор" as Admin
+actor "Логист" as Logistician
+actor "Оператор КПП" as Operator
+
+rectangle "Система контроля КПП" {
+  ' Варианты использования для всех пользователей
+  usecase "Авторизация в системе" as Login
+  usecase "Просмотр своих данных" as ViewOwnData
+  usecase "Выход из системы" as Logout
+  usecase "Обновление токена" as RefreshToken
+  
+  ' Варианты использования для Администратора
+  usecase "Управление пользователями" as ManageUsers
+  usecase "Создание пользователя" as CreateUser
+  usecase "Просмотр пользователей" as ViewUsers
+  
+  usecase "Управление КПП" as ManageCheckpoints
+  usecase "Создание КПП" as CreateCheckpoint
+  usecase "Редактирование КПП" as EditCheckpoint
+  usecase "Удаление КПП" as DeleteCheckpoint
+  
+  usecase "Управление зонами" as ManageZones
+  usecase "Создание зоны" as CreateZone
+  usecase "Редактирование зоны" as EditZone
+  
+  ' Варианты использования для Логиста
+  usecase "Управление организациями" as ManageOrganizations
+  usecase "Создание организации" as CreateOrganization
+  usecase "Редактирование организации" as EditOrganization
+  
+  usecase "Управление экспедициями" as ManageExpeditions
+  usecase "Создание экспедиции" as CreateExpedition
+  usecase "Просмотр экспедиций" as ViewExpeditions
+  usecase "Просмотр деталей экспедиции" as ViewExpeditionDetails
+  
+  usecase "Управление товарами" as ManageGoods
+  usecase "Создание товара" as CreateGood
+  usecase "Редактирование товара" as EditGood
+  
+  ' Варианты использования для Оператора
+  usecase "Работа с экспедициями" as WorkWithExpeditions
+  usecase "Просмотр экспедиций для КПП" as ViewCheckpointExpeditions
+  usecase "Просмотр деталей экспедиции" as ViewExpeditionDetailsOperator
+  usecase "Подтверждение экспедиции" as ConfirmExpedition
+  usecase "Отклонение экспедиции" as CancelExpedition
+  usecase "Просмотр истории подтверждений" as ViewConfirmationHistory
+}
+
+' Связи для всех пользователей
+Admin --> Login
+Logistician --> Login
+Operator --> Login
+
+Admin --> ViewOwnData
+Logistician --> ViewOwnData
+Operator --> ViewOwnData
+
+Admin --> Logout
+Logistician --> Logout
+Operator --> Logout
+
+Login .> RefreshToken : <<включает>>
+
+' Связи для Администратора
+Admin --> ManageUsers
+ManageUsers ..> CreateUser : <<включает>>
+ManageUsers ..> ViewUsers : <<включает>>
+
+Admin --> ManageCheckpoints
+ManageCheckpoints ..> CreateCheckpoint : <<включает>>
+ManageCheckpoints ..> EditCheckpoint : <<включает>>
+ManageCheckpoints ..> DeleteCheckpoint : <<включает>>
+
+Admin --> ManageZones
+ManageZones ..> CreateZone : <<включает>>
+ManageZones ..> EditZone : <<включает>>
+
+' Связи для Логиста
+Logistician --> ManageOrganizations
+ManageOrganizations ..> CreateOrganization : <<включает>>
+ManageOrganizations ..> EditOrganization : <<включает>>
+
+Logistician --> ManageExpeditions
+ManageExpeditions ..> CreateExpedition : <<включает>>
+ManageExpeditions ..> ViewExpeditions : <<включает>>
+ManageExpeditions ..> ViewExpeditionDetails : <<включает>>
+
+Logistician --> ManageGoods
+ManageGoods ..> CreateGood : <<включает>>
+ManageGoods ..> EditGood : <<включает>>
+
+' Связи для Оператора
+Operator --> WorkWithExpeditions
+WorkWithExpeditions ..> ViewCheckpointExpeditions : <<включает>>
+WorkWithExpeditions ..> ViewExpeditionDetailsOperator : <<включает>>
+WorkWithExpeditions ..> ConfirmExpedition : <<включает>>
+WorkWithExpeditions ..> CancelExpedition : <<включает>>
+WorkWithExpeditions ..> ViewConfirmationHistory : <<включает>>
+
+' Наследования
+ViewExpeditionDetailsOperator --|> ViewExpeditionDetails
+
+@enduml 

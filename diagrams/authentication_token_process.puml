@@ -1,0 +1,51 @@
+@startuml Authentication Token Process
+
+title Процесс аутентификации и работы с токенами
+
+skinparam sequenceArrowThickness 2
+skinparam roundcorner 15
+skinparam sequenceGroupBackgroundColor LightBlue
+skinparam sequenceGroupBodyBackgroundColor WhiteSmoke
+
+actor "Пользователь" as User
+participant "Фронтенд" as Frontend
+participant "Бэкенд API" as API
+database "База данных" as DB
+
+== Аутентификация и получение токенов ==
+
+User -> Frontend : Ввести логин и пароль
+Frontend -> API : POST /auth/jwt/create/ {username, password}
+API -> DB : Проверить учетные данные
+API -> API : Сгенерировать JWT токены (access, refresh)
+API --> Frontend : {access_token, refresh_token}
+Frontend -> Frontend : Сохранить токены
+Frontend --> User : Редирект на главную страницу
+
+== Получение данных пользователя ==
+
+Frontend -> API : GET /auth/details (с Authorization: Bearer {access_token})
+API -> API : Проверить access_token
+API -> DB : Получить данные пользователя
+API --> Frontend : Данные пользователя {id, username, role, checkpoint}
+Frontend --> User : Отобразить информацию о пользователе
+
+== Обновление токена ==
+
+note over Frontend, API
+  Когда access_token истекает
+end note
+
+Frontend -> API : POST /auth/jwt/refresh/ {refresh_token}
+API -> API : Проверить refresh_token
+API -> API : Сгенерировать новый access_token
+API --> Frontend : {access_token}
+Frontend -> Frontend : Сохранить новый access_token
+
+== Проверка токена ==
+
+Frontend -> API : POST /auth/jwt/verify/ {token}
+API -> API : Проверить валидность токена
+API --> Frontend : Статус проверки (200 OK или ошибка)
+
+@enduml 

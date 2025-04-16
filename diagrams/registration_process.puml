@@ -1,0 +1,46 @@
+@startuml Registration Process
+
+title Процесс регистрации и установки пароля
+
+skinparam sequenceArrowThickness 2
+skinparam roundcorner 15
+skinparam sequenceGroupBackgroundColor LightBlue
+skinparam sequenceGroupBodyBackgroundColor WhiteSmoke
+
+actor "Администратор" as Admin
+actor "Пользователь" as User
+participant "Фронтенд" as Frontend
+participant "Бэкенд API" as API
+database "База данных" as DB
+
+== Регистрация нового пользователя ==
+
+Admin -> Frontend : Открыть экран создания пользователя
+Frontend --> Admin : Отобразить форму создания пользователя
+
+Admin -> Frontend : Заполнить форму (имя пользователя, роль, КПП)
+Admin -> Frontend : Нажать "Создать"
+Frontend -> API : POST /auth/signup {username, role, checkpoint_id?}
+
+API -> DB : Создать пользователя без пароля
+API -> DB : Сгенерировать token
+API --> Frontend : Вернуть ссылку для установки пароля
+Frontend --> Admin : Отобразить ссылку для установки пароля
+
+Admin -> User : Отправить ссылку пользователю
+
+== Установка пароля ==
+
+User -> Frontend : Перейти по ссылке
+Frontend -> API : GET /auth/setpass/{token} (проверка токена)
+API --> Frontend : Токен валиден / не валиден
+Frontend --> User : Отобразить форму установки пароля
+
+User -> Frontend : Ввести пароль и подтверждение
+Frontend -> API : POST /auth/setpass/{token} {password, password_confirm}
+API -> DB : Установить пароль и is_password_set = true
+API -> DB : Удалить токен
+API --> Frontend : Результат операции
+Frontend --> User : Уведомление об успешной установке пароля
+
+@enduml 

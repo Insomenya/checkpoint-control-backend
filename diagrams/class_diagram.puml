@@ -1,0 +1,143 @@
+@startuml Class Diagram
+
+title Диаграмма классов Системы контроля КПП
+
+' Цветовое оформление
+skinparam class {
+  BackgroundColor PaleTurquoise
+  ArrowColor DarkBlue
+  BorderColor DarkBlue
+}
+
+package "Authentication" {
+  class User {
+    +username: String
+    +password: String
+    +role: String
+    +is_password_set: Boolean
+    +checkpoint: Checkpoint
+    +password_reset_token: String
+    +generate_signup_link(): String
+    +generate_password_reset_token(): String
+  }
+
+  enum Role {
+    LOGISTICIAN
+    OPERATOR
+    ADMIN
+  }
+}
+
+package "Organizations" {
+  class Organization {
+    +name: String
+    +address: String
+    +contact_phone: String
+  }
+}
+
+package "Checkpoints" {
+  class Zone {
+    +name: String
+  }
+
+  class Checkpoint {
+    +name: String
+    +zone: Zone
+  }
+}
+
+package "Expeditions" {
+  class Expedition {
+    +name: String
+    +direction: String
+    +type: String
+    +sender: Organization
+    +receiver: Organization
+    +created_by: User
+    +full_name: String
+    +passport_number: String
+    +phone_number: String
+    +license_plate: String
+    +vehicle_model: String
+    +start_date: Date
+    +end_date: Date
+  }
+
+  class Invoice {
+    +expedition: Expedition
+    +number: String
+    +cargo_description: String
+  }
+
+  class Good {
+    +name: String
+    +description: String
+    +unit_of_measurement: String
+  }
+
+  class InvoiceGood {
+    +invoice: Invoice
+    +good: Good
+    +quantity: Float
+  }
+
+  enum Direction {
+    IN
+    OUT
+  }
+
+  enum ExpeditionType {
+    AUTO
+    SELFAUTO
+    SELFOUT
+  }
+
+  enum UnitOfMeasurement {
+    PIECES
+    KG
+    LITERS
+    METERS
+  }
+}
+
+package "Confirmations" {
+  class Confirmation {
+    +expedition: Expedition
+    +confirmed_by: User
+    +zone: Zone
+    +status: String
+    +confirmed_at: DateTime
+  }
+
+  enum ConfirmationStatus {
+    CONFIRMED
+    CANCELLED
+  }
+}
+
+' Связи классов
+User "1" -- "0..1" Checkpoint : работает в >
+User "1" -- "*" Expedition : создаёт >
+User "1" -- "*" Confirmation : подтверждает >
+User -- Role : имеет >
+
+Organization "1" -- "*" Expedition : отправляет >
+Organization "1" -- "*" Expedition : получает >
+
+Zone "1" -- "*" Checkpoint : имеет >
+Zone "1" -- "*" Confirmation : проходит через >
+
+Expedition "1" -- "*" Invoice : содержит >
+Expedition -- Direction : имеет >
+Expedition -- ExpeditionType : имеет >
+Expedition "1" -- "*" Confirmation : подтверждается >
+
+Invoice "1" -- "*" InvoiceGood : содержит >
+
+Good "1" -- "*" InvoiceGood : содержится в >
+Good -- UnitOfMeasurement : имеет >
+
+Confirmation -- ConfirmationStatus : имеет >
+
+@enduml 

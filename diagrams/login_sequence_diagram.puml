@@ -1,0 +1,41 @@
+@startuml Login Sequence Diagram
+
+title Диаграмма последовательности для процесса авторизации
+
+actor "Пользователь" as user
+participant "Фронтенд" as frontend
+participant "Бэкенд" as backend
+database "База данных" as db
+
+== Авторизация ==
+user -> frontend: Вводит логин и пароль
+frontend -> backend: Отправляет данные авторизации
+backend -> db: Проверяет учетные данные
+db --> backend: Возвращает результат проверки
+
+alt Успешная авторизация
+    backend -> backend: Генерирует токен доступа
+    backend --> frontend: Возвращает токен и информацию о пользователе
+    frontend --> user: Перенаправляет на главную страницу
+else Неудачная авторизация
+    backend --> frontend: Возвращает ошибку авторизации
+    frontend --> user: Отображает сообщение об ошибке
+end
+
+== Проверка токена ==
+user -> frontend: Запрашивает защищенный ресурс
+frontend -> backend: Отправляет запрос с токеном
+backend -> backend: Проверяет валидность токена
+
+alt Валидный токен
+    backend -> db: Запрашивает данные
+    db --> backend: Возвращает данные
+    backend --> frontend: Возвращает запрошенный ресурс
+    frontend --> user: Отображает данные
+else Недействительный токен
+    backend --> frontend: Возвращает ошибку авторизации
+    frontend -> frontend: Сбрасывает сессию
+    frontend --> user: Перенаправляет на страницу авторизации
+end
+
+@enduml 

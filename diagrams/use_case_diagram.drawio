@@ -1,0 +1,331 @@
+<mxfile host="app.diagrams.net" agent="Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/132.0.0.0 YaBrowser/25.2.0.0 Safari/537.36" version="26.2.13">
+  <diagram id="use-case-diagram" name="Use Case Diagram">
+    <mxGraphModel dx="2798" dy="2306" grid="1" gridSize="10" guides="1" tooltips="1" connect="1" arrows="1" fold="1" page="1" pageScale="1" pageWidth="827" pageHeight="1169" math="0" shadow="0">
+      <root>
+        <mxCell id="0" />
+        <mxCell id="1" parent="0" />
+        <mxCell id="admin" value="Администратор" style="shape=umlActor;verticalLabelPosition=bottom;verticalAlign=top;html=1;outlineConnect=0;" parent="1" vertex="1">
+          <mxGeometry x="80" y="140" width="30" height="60" as="geometry" />
+        </mxCell>
+        <mxCell id="logistician" value="Логист" style="shape=umlActor;verticalLabelPosition=bottom;verticalAlign=top;html=1;outlineConnect=0;" parent="1" vertex="1">
+          <mxGeometry x="80" y="340" width="30" height="60" as="geometry" />
+        </mxCell>
+        <mxCell id="operator" value="Оператор КПП" style="shape=umlActor;verticalLabelPosition=bottom;verticalAlign=top;html=1;outlineConnect=0;" parent="1" vertex="1">
+          <mxGeometry x="80" y="540" width="30" height="60" as="geometry" />
+        </mxCell>
+        <mxCell id="login" value="Авторизация в системе" style="ellipse;whiteSpace=wrap;html=1;fillColor=#fff2cc;strokeColor=#d6b656;" parent="1" vertex="1">
+          <mxGeometry x="-290" y="370" width="120" height="50" as="geometry" />
+        </mxCell>
+        <mxCell id="view-own-data" value="Просмотр своих данных" style="ellipse;whiteSpace=wrap;html=1;fillColor=#fff2cc;strokeColor=#d6b656;" parent="1" vertex="1">
+          <mxGeometry x="-220" y="170" width="120" height="50" as="geometry" />
+        </mxCell>
+        <mxCell id="logout" value="Выход из системы" style="ellipse;whiteSpace=wrap;html=1;fillColor=#fff2cc;strokeColor=#d6b656;" parent="1" vertex="1">
+          <mxGeometry x="-220" y="520" width="120" height="50" as="geometry" />
+        </mxCell>
+        <mxCell id="refresh-token" value="Обновление токена" style="ellipse;whiteSpace=wrap;html=1;fillColor=#fff2cc;strokeColor=#d6b656;" parent="1" vertex="1">
+          <mxGeometry x="-400" y="260" width="120" height="50" as="geometry" />
+        </mxCell>
+        <mxCell id="manage-users" value="Управление пользователями" style="ellipse;whiteSpace=wrap;html=1;fillColor=#dae8fc;strokeColor=#6c8ebf;" parent="1" vertex="1">
+          <mxGeometry x="-40" y="40" width="140" height="50" as="geometry" />
+        </mxCell>
+        <mxCell id="create-user" value="Создание пользователя" style="ellipse;whiteSpace=wrap;html=1;fillColor=#dae8fc;strokeColor=#6c8ebf;" parent="1" vertex="1">
+          <mxGeometry x="-180" y="-40" width="120" height="50" as="geometry" />
+        </mxCell>
+        <mxCell id="view-users" value="Просмотр пользователей" style="ellipse;whiteSpace=wrap;html=1;fillColor=#dae8fc;strokeColor=#6c8ebf;" parent="1" vertex="1">
+          <mxGeometry x="100" y="-50" width="120" height="50" as="geometry" />
+        </mxCell>
+        <mxCell id="manage-checkpoints" value="Управление КПП" style="ellipse;whiteSpace=wrap;html=1;fillColor=#dae8fc;strokeColor=#6c8ebf;" parent="1" vertex="1">
+          <mxGeometry x="190" y="85" width="140" height="50" as="geometry" />
+        </mxCell>
+        <mxCell id="create-checkpoint" value="Создание КПП" style="ellipse;whiteSpace=wrap;html=1;fillColor=#dae8fc;strokeColor=#6c8ebf;" parent="1" vertex="1">
+          <mxGeometry x="380" y="-40" width="120" height="50" as="geometry" />
+        </mxCell>
+        <mxCell id="edit-checkpoint" value="Редактирование КПП" style="ellipse;whiteSpace=wrap;html=1;fillColor=#dae8fc;strokeColor=#6c8ebf;" parent="1" vertex="1">
+          <mxGeometry x="430" y="35" width="120" height="50" as="geometry" />
+        </mxCell>
+        <mxCell id="delete-checkpoint" value="Удаление КПП" style="ellipse;whiteSpace=wrap;html=1;fillColor=#dae8fc;strokeColor=#6c8ebf;" parent="1" vertex="1">
+          <mxGeometry x="440" y="120" width="120" height="50" as="geometry" />
+        </mxCell>
+        <mxCell id="manage-zones" value="Управление зонами" style="ellipse;whiteSpace=wrap;html=1;fillColor=#dae8fc;strokeColor=#6c8ebf;" parent="1" vertex="1">
+          <mxGeometry x="200" y="200" width="140" height="50" as="geometry" />
+        </mxCell>
+        <mxCell id="create-zone" value="Создание зоны" style="ellipse;whiteSpace=wrap;html=1;fillColor=#dae8fc;strokeColor=#6c8ebf;" parent="1" vertex="1">
+          <mxGeometry x="460" y="250" width="120" height="50" as="geometry" />
+        </mxCell>
+        <mxCell id="edit-zone" value="Редактирование зоны" style="ellipse;whiteSpace=wrap;html=1;fillColor=#dae8fc;strokeColor=#6c8ebf;" parent="1" vertex="1">
+          <mxGeometry x="400" y="320" width="120" height="50" as="geometry" />
+        </mxCell>
+        <mxCell id="manage-organizations" value="Управление организациями" style="ellipse;whiteSpace=wrap;html=1;fillColor=#d5e8d4;strokeColor=#82b366;" parent="1" vertex="1">
+          <mxGeometry x="344" y="440" width="140" height="50" as="geometry" />
+        </mxCell>
+        <mxCell id="create-organization" value="Создание организации" style="ellipse;whiteSpace=wrap;html=1;fillColor=#d5e8d4;strokeColor=#82b366;" parent="1" vertex="1">
+          <mxGeometry x="760" y="480" width="120" height="50" as="geometry" />
+        </mxCell>
+        <mxCell id="edit-organization" value="Редактирование организации" style="ellipse;whiteSpace=wrap;html=1;fillColor=#d5e8d4;strokeColor=#82b366;" parent="1" vertex="1">
+          <mxGeometry x="730" y="585" width="160" height="50" as="geometry" />
+        </mxCell>
+        <mxCell id="manage-expeditions" value="Управление экспедициями" style="ellipse;whiteSpace=wrap;html=1;fillColor=#d5e8d4;strokeColor=#82b366;" parent="1" vertex="1">
+          <mxGeometry x="200" y="520" width="140" height="50" as="geometry" />
+        </mxCell>
+        <mxCell id="create-expedition" value="Создание экспедиции" style="ellipse;whiteSpace=wrap;html=1;fillColor=#d5e8d4;strokeColor=#82b366;" parent="1" vertex="1">
+          <mxGeometry x="510" y="560" width="120" height="50" as="geometry" />
+        </mxCell>
+        <mxCell id="view-expeditions" value="Просмотр экспедиций" style="ellipse;whiteSpace=wrap;html=1;fillColor=#d5e8d4;strokeColor=#82b366;" parent="1" vertex="1">
+          <mxGeometry x="330" y="620" width="120" height="50" as="geometry" />
+        </mxCell>
+        <mxCell id="view-expedition-details" value="Просмотр деталей экспедиции" style="ellipse;whiteSpace=wrap;html=1;fillColor=#d5e8d4;strokeColor=#82b366;" parent="1" vertex="1">
+          <mxGeometry x="670" y="700" width="120" height="50" as="geometry" />
+        </mxCell>
+        <mxCell id="manage-goods" value="Управление товарами" style="ellipse;whiteSpace=wrap;html=1;fillColor=#d5e8d4;strokeColor=#82b366;" parent="1" vertex="1">
+          <mxGeometry x="274" y="370" width="140" height="50" as="geometry" />
+        </mxCell>
+        <mxCell id="create-good" value="Создание товара" style="ellipse;whiteSpace=wrap;html=1;fillColor=#d5e8d4;strokeColor=#82b366;" parent="1" vertex="1">
+          <mxGeometry x="630" y="410" width="120" height="50" as="geometry" />
+        </mxCell>
+        <mxCell id="edit-good" value="Редактирование товара" style="ellipse;whiteSpace=wrap;html=1;fillColor=#d5e8d4;strokeColor=#82b366;" parent="1" vertex="1">
+          <mxGeometry x="660" y="340" width="120" height="50" as="geometry" />
+        </mxCell>
+        <mxCell id="work-with-expeditions" value="Работа с экспедициями" style="ellipse;whiteSpace=wrap;html=1;fillColor=#ffe6cc;strokeColor=#d79b00;" parent="1" vertex="1">
+          <mxGeometry x="300" y="690" width="140" height="50" as="geometry" />
+        </mxCell>
+        <mxCell id="view-checkpoint-expeditions" value="Просмотр экспедиций для КПП" style="ellipse;whiteSpace=wrap;html=1;fillColor=#ffe6cc;strokeColor=#d79b00;" parent="1" vertex="1">
+          <mxGeometry x="40" y="760" width="160" height="50" as="geometry" />
+        </mxCell>
+        <mxCell id="view-expedition-details-operator" value="Просмотр деталей экспедиции (оператор)" style="ellipse;whiteSpace=wrap;html=1;fillColor=#ffe6cc;strokeColor=#d79b00;" parent="1" vertex="1">
+          <mxGeometry x="400" y="810" width="180" height="50" as="geometry" />
+        </mxCell>
+        <mxCell id="confirm-expedition" value="Подтверждение экспедиции" style="ellipse;whiteSpace=wrap;html=1;fillColor=#ffe6cc;strokeColor=#d79b00;" parent="1" vertex="1">
+          <mxGeometry x="-100" y="880" width="160" height="50" as="geometry" />
+        </mxCell>
+        <mxCell id="cancel-expedition" value="Отклонение экспедиции" style="ellipse;whiteSpace=wrap;html=1;fillColor=#ffe6cc;strokeColor=#d79b00;" parent="1" vertex="1">
+          <mxGeometry x="170" y="880" width="160" height="50" as="geometry" />
+        </mxCell>
+        <mxCell id="view-confirmation-history" value="Просмотр истории подтверждений" style="ellipse;whiteSpace=wrap;html=1;fillColor=#ffe6cc;strokeColor=#d79b00;" parent="1" vertex="1">
+          <mxGeometry x="540" y="890" width="180" height="50" as="geometry" />
+        </mxCell>
+        <mxCell id="admin-login" value="" style="endArrow=classic;html=1;rounded=0;entryX=1;entryY=0;entryDx=0;entryDy=0;exitX=0.5;exitY=0.5;exitDx=0;exitDy=0;exitPerimeter=0;" parent="1" source="admin" target="login" edge="1">
+          <mxGeometry width="50" height="50" relative="1" as="geometry">
+            <mxPoint x="100" y="190" as="sourcePoint" />
+            <mxPoint x="150" y="140" as="targetPoint" />
+          </mxGeometry>
+        </mxCell>
+        <mxCell id="admin-view-own-data" value="" style="endArrow=classic;html=1;rounded=0;entryX=1;entryY=0;entryDx=0;entryDy=0;exitX=0.5;exitY=0.5;exitDx=0;exitDy=0;exitPerimeter=0;" parent="1" source="admin" target="view-own-data" edge="1">
+          <mxGeometry width="50" height="50" relative="1" as="geometry">
+            <mxPoint x="100" y="190" as="sourcePoint" />
+            <mxPoint x="150" y="140" as="targetPoint" />
+          </mxGeometry>
+        </mxCell>
+        <mxCell id="admin-logout" value="" style="endArrow=classic;html=1;rounded=0;entryX=1;entryY=0;entryDx=0;entryDy=0;exitX=0.5;exitY=0.5;exitDx=0;exitDy=0;exitPerimeter=0;" parent="1" source="admin" target="logout" edge="1">
+          <mxGeometry width="50" height="50" relative="1" as="geometry">
+            <mxPoint x="100" y="190" as="sourcePoint" />
+            <mxPoint x="150" y="140" as="targetPoint" />
+          </mxGeometry>
+        </mxCell>
+        <mxCell id="logistician-login" value="" style="endArrow=classic;html=1;rounded=0;entryX=1;entryY=0.5;entryDx=0;entryDy=0;exitX=0.5;exitY=0.5;exitDx=0;exitDy=0;exitPerimeter=0;" parent="1" source="logistician" target="login" edge="1">
+          <mxGeometry width="50" height="50" relative="1" as="geometry">
+            <mxPoint x="100" y="190" as="sourcePoint" />
+            <mxPoint x="150" y="140" as="targetPoint" />
+          </mxGeometry>
+        </mxCell>
+        <mxCell id="logistician-view-own-data" value="" style="endArrow=classic;html=1;rounded=0;entryX=1;entryY=0.5;entryDx=0;entryDy=0;exitX=0.5;exitY=0.5;exitDx=0;exitDy=0;exitPerimeter=0;" parent="1" source="logistician" target="view-own-data" edge="1">
+          <mxGeometry width="50" height="50" relative="1" as="geometry">
+            <mxPoint x="100" y="190" as="sourcePoint" />
+            <mxPoint x="150" y="140" as="targetPoint" />
+          </mxGeometry>
+        </mxCell>
+        <mxCell id="logistician-logout" value="" style="endArrow=classic;html=1;rounded=0;entryX=1;entryY=0.5;entryDx=0;entryDy=0;exitX=0.5;exitY=0.5;exitDx=0;exitDy=0;exitPerimeter=0;" parent="1" source="logistician" target="logout" edge="1">
+          <mxGeometry width="50" height="50" relative="1" as="geometry">
+            <mxPoint x="100" y="190" as="sourcePoint" />
+            <mxPoint x="150" y="140" as="targetPoint" />
+          </mxGeometry>
+        </mxCell>
+        <mxCell id="operator-login" value="" style="endArrow=classic;html=1;rounded=0;entryX=1;entryY=1;entryDx=0;entryDy=0;exitX=0.5;exitY=0.5;exitDx=0;exitDy=0;exitPerimeter=0;" parent="1" source="operator" target="login" edge="1">
+          <mxGeometry width="50" height="50" relative="1" as="geometry">
+            <mxPoint x="100" y="190" as="sourcePoint" />
+            <mxPoint x="150" y="140" as="targetPoint" />
+          </mxGeometry>
+        </mxCell>
+        <mxCell id="operator-view-own-data" value="" style="endArrow=classic;html=1;rounded=0;entryX=1;entryY=1;entryDx=0;entryDy=0;exitX=0.5;exitY=0.5;exitDx=0;exitDy=0;exitPerimeter=0;" parent="1" source="operator" target="view-own-data" edge="1">
+          <mxGeometry width="50" height="50" relative="1" as="geometry">
+            <mxPoint x="100" y="190" as="sourcePoint" />
+            <mxPoint x="150" y="140" as="targetPoint" />
+          </mxGeometry>
+        </mxCell>
+        <mxCell id="operator-logout" value="" style="endArrow=classic;html=1;rounded=0;entryX=1;entryY=1;entryDx=0;entryDy=0;exitX=0.5;exitY=0.5;exitDx=0;exitDy=0;exitPerimeter=0;" parent="1" source="operator" target="logout" edge="1">
+          <mxGeometry width="50" height="50" relative="1" as="geometry">
+            <mxPoint x="100" y="190" as="sourcePoint" />
+            <mxPoint x="150" y="140" as="targetPoint" />
+          </mxGeometry>
+        </mxCell>
+        <mxCell id="login-refresh-token" value="&lt;&lt;включает&gt;&gt;" style="endArrow=open;dashed=1;html=1;dashPattern=1 3;strokeWidth=1;rounded=0;exitX=0.5;exitY=0;exitDx=0;exitDy=0;entryX=1;entryY=0.5;entryDx=0;entryDy=0;" parent="1" source="login" target="refresh-token" edge="1">
+          <mxGeometry width="50" height="50" relative="1" as="geometry">
+            <mxPoint x="400" y="220" as="sourcePoint" />
+            <mxPoint x="450" y="170" as="targetPoint" />
+          </mxGeometry>
+        </mxCell>
+        <mxCell id="admin-manage-users" value="" style="endArrow=classic;html=1;rounded=0;entryX=0.5;entryY=1;entryDx=0;entryDy=0;exitX=0.5;exitY=0.5;exitDx=0;exitDy=0;exitPerimeter=0;" parent="1" source="admin" target="manage-users" edge="1">
+          <mxGeometry width="50" height="50" relative="1" as="geometry">
+            <mxPoint x="400" y="330" as="sourcePoint" />
+            <mxPoint x="450" y="280" as="targetPoint" />
+          </mxGeometry>
+        </mxCell>
+        <mxCell id="admin-manage-checkpoints" value="" style="endArrow=classic;html=1;rounded=0;entryX=0;entryY=0.5;entryDx=0;entryDy=0;exitX=0.5;exitY=0.5;exitDx=0;exitDy=0;exitPerimeter=0;" parent="1" source="admin" target="manage-checkpoints" edge="1">
+          <mxGeometry width="50" height="50" relative="1" as="geometry">
+            <mxPoint x="400" y="330" as="sourcePoint" />
+            <mxPoint x="450" y="280" as="targetPoint" />
+          </mxGeometry>
+        </mxCell>
+        <mxCell id="admin-manage-zones" value="" style="endArrow=classic;html=1;rounded=0;entryX=0;entryY=0.5;entryDx=0;entryDy=0;exitX=0.5;exitY=0.5;exitDx=0;exitDy=0;exitPerimeter=0;" parent="1" source="admin" target="manage-zones" edge="1">
+          <mxGeometry width="50" height="50" relative="1" as="geometry">
+            <mxPoint x="400" y="330" as="sourcePoint" />
+            <mxPoint x="450" y="280" as="targetPoint" />
+          </mxGeometry>
+        </mxCell>
+        <mxCell id="manage-users-create-user" value="&lt;&lt;включает&gt;&gt;" style="endArrow=open;dashed=1;html=1;dashPattern=1 3;strokeWidth=1;rounded=0;exitX=0;exitY=0;exitDx=0;exitDy=0;entryX=1;entryY=1;entryDx=0;entryDy=0;" parent="1" source="manage-users" target="create-user" edge="1">
+          <mxGeometry width="50" height="50" relative="1" as="geometry">
+            <mxPoint x="400" y="210" as="sourcePoint" />
+            <mxPoint x="450" y="160" as="targetPoint" />
+          </mxGeometry>
+        </mxCell>
+        <mxCell id="manage-users-view-users" value="&lt;&lt;включает&gt;&gt;" style="endArrow=open;dashed=1;html=1;dashPattern=1 3;strokeWidth=1;rounded=0;exitX=1;exitY=0;exitDx=0;exitDy=0;entryX=0.5;entryY=1;entryDx=0;entryDy=0;" parent="1" source="manage-users" target="view-users" edge="1">
+          <mxGeometry width="50" height="50" relative="1" as="geometry">
+            <mxPoint x="400" y="210" as="sourcePoint" />
+            <mxPoint x="450" y="160" as="targetPoint" />
+          </mxGeometry>
+        </mxCell>
+        <mxCell id="manage-checkpoints-create-checkpoint" value="&lt;&lt;включает&gt;&gt;" style="endArrow=open;dashed=1;html=1;dashPattern=1 3;strokeWidth=1;rounded=0;exitX=1;exitY=0;exitDx=0;exitDy=0;entryX=0;entryY=0.5;entryDx=0;entryDy=0;" parent="1" source="manage-checkpoints" target="create-checkpoint" edge="1">
+          <mxGeometry width="50" height="50" relative="1" as="geometry">
+            <mxPoint x="350" y="190" as="sourcePoint" />
+            <mxPoint x="400" y="140" as="targetPoint" />
+          </mxGeometry>
+        </mxCell>
+        <mxCell id="manage-checkpoints-edit-checkpoint" value="&lt;&lt;включает&gt;&gt;" style="endArrow=open;dashed=1;html=1;dashPattern=1 3;strokeWidth=1;rounded=0;exitX=1;exitY=0.5;exitDx=0;exitDy=0;entryX=0;entryY=0.5;entryDx=0;entryDy=0;" parent="1" source="manage-checkpoints" target="edit-checkpoint" edge="1">
+          <mxGeometry width="50" height="50" relative="1" as="geometry">
+            <mxPoint x="350" y="190" as="sourcePoint" />
+            <mxPoint x="500" y="145" as="targetPoint" />
+          </mxGeometry>
+        </mxCell>
+        <mxCell id="manage-checkpoints-delete-checkpoint" value="&lt;&lt;включает&gt;&gt;" style="endArrow=open;dashed=1;html=1;dashPattern=1 3;strokeWidth=1;rounded=0;exitX=1;exitY=1;exitDx=0;exitDy=0;entryX=0;entryY=0.5;entryDx=0;entryDy=0;" parent="1" source="manage-checkpoints" target="delete-checkpoint" edge="1">
+          <mxGeometry width="50" height="50" relative="1" as="geometry">
+            <mxPoint x="350" y="275" as="sourcePoint" />
+            <mxPoint x="400" y="225" as="targetPoint" />
+          </mxGeometry>
+        </mxCell>
+        <mxCell id="manage-zones-create-zone" value="&lt;&lt;включает&gt;&gt;" style="endArrow=open;dashed=1;html=1;dashPattern=1 3;strokeWidth=1;rounded=0;exitX=1;exitY=0.5;exitDx=0;exitDy=0;entryX=0;entryY=0.5;entryDx=0;entryDy=0;" parent="1" source="manage-zones" target="create-zone" edge="1">
+          <mxGeometry width="50" height="50" relative="1" as="geometry">
+            <mxPoint x="400" y="430" as="sourcePoint" />
+            <mxPoint x="450" y="380" as="targetPoint" />
+          </mxGeometry>
+        </mxCell>
+        <mxCell id="manage-zones-edit-zone" value="&lt;&lt;включает&gt;&gt;" style="endArrow=open;dashed=1;html=1;dashPattern=1 3;strokeWidth=1;rounded=0;exitX=1;exitY=1;exitDx=0;exitDy=0;entryX=0;entryY=0.5;entryDx=0;entryDy=0;" parent="1" source="manage-zones" target="edit-zone" edge="1">
+          <mxGeometry width="50" height="50" relative="1" as="geometry">
+            <mxPoint x="400" y="430" as="sourcePoint" />
+            <mxPoint x="450" y="380" as="targetPoint" />
+          </mxGeometry>
+        </mxCell>
+        <mxCell id="logistician-manage-organizations" value="" style="endArrow=classic;html=1;rounded=0;entryX=0;entryY=0.5;entryDx=0;entryDy=0;exitX=0.5;exitY=0.5;exitDx=0;exitDy=0;exitPerimeter=0;" edge="1" parent="1" source="logistician" target="manage-organizations">
+          <mxGeometry width="50" height="50" relative="1" as="geometry">
+            <mxPoint x="400" y="430" as="sourcePoint" />
+            <mxPoint x="450" y="380" as="targetPoint" />
+          </mxGeometry>
+        </mxCell>
+        <mxCell id="logistician-manage-expeditions" value="" style="endArrow=classic;html=1;rounded=0;entryX=0;entryY=0.5;entryDx=0;entryDy=0;exitX=0.5;exitY=0.5;exitDx=0;exitDy=0;exitPerimeter=0;" edge="1" parent="1" source="logistician" target="manage-expeditions">
+          <mxGeometry width="50" height="50" relative="1" as="geometry">
+            <mxPoint x="400" y="430" as="sourcePoint" />
+            <mxPoint x="450" y="380" as="targetPoint" />
+          </mxGeometry>
+        </mxCell>
+        <mxCell id="logistician-manage-goods" value="" style="endArrow=classic;html=1;rounded=0;entryX=0;entryY=0.5;entryDx=0;entryDy=0;exitX=0.5;exitY=0.5;exitDx=0;exitDy=0;exitPerimeter=0;" edge="1" parent="1" source="logistician" target="manage-goods">
+          <mxGeometry width="50" height="50" relative="1" as="geometry">
+            <mxPoint x="400" y="430" as="sourcePoint" />
+            <mxPoint x="450" y="380" as="targetPoint" />
+          </mxGeometry>
+        </mxCell>
+        <mxCell id="manage-organizations-create-organization" value="&lt;&lt;включает&gt;&gt;" style="endArrow=open;dashed=1;html=1;dashPattern=1 3;strokeWidth=1;rounded=0;exitX=1;exitY=0.5;exitDx=0;exitDy=0;entryX=0;entryY=0.5;entryDx=0;entryDy=0;" edge="1" parent="1" source="manage-organizations" target="create-organization">
+          <mxGeometry width="50" height="50" relative="1" as="geometry">
+            <mxPoint x="400" y="430" as="sourcePoint" />
+            <mxPoint x="450" y="380" as="targetPoint" />
+          </mxGeometry>
+        </mxCell>
+        <mxCell id="manage-organizations-edit-organization" value="&lt;&lt;включает&gt;&gt;" style="endArrow=open;dashed=1;html=1;dashPattern=1 3;strokeWidth=1;rounded=0;exitX=1;exitY=0.5;exitDx=0;exitDy=0;entryX=0;entryY=0;entryDx=0;entryDy=0;" edge="1" parent="1" source="manage-organizations" target="edit-organization">
+          <mxGeometry width="50" height="50" relative="1" as="geometry">
+            <mxPoint x="400" y="430" as="sourcePoint" />
+            <mxPoint x="450" y="380" as="targetPoint" />
+          </mxGeometry>
+        </mxCell>
+        <mxCell id="manage-expeditions-create-expedition" value="&lt;&lt;включает&gt;&gt;" style="endArrow=open;dashed=1;html=1;dashPattern=1 3;strokeWidth=1;rounded=0;exitX=1;exitY=0.5;exitDx=0;exitDy=0;entryX=0;entryY=0.5;entryDx=0;entryDy=0;" edge="1" parent="1" source="manage-expeditions" target="create-expedition">
+          <mxGeometry width="50" height="50" relative="1" as="geometry">
+            <mxPoint x="400" y="480" as="sourcePoint" />
+            <mxPoint x="450" y="430" as="targetPoint" />
+          </mxGeometry>
+        </mxCell>
+        <mxCell id="manage-expeditions-view-expeditions" value="&lt;&lt;включает&gt;&gt;" style="endArrow=open;dashed=1;html=1;dashPattern=1 3;strokeWidth=1;rounded=0;exitX=0.5;exitY=1;exitDx=0;exitDy=0;entryX=0;entryY=0.5;entryDx=0;entryDy=0;" edge="1" parent="1" source="manage-expeditions" target="view-expeditions">
+          <mxGeometry width="50" height="50" relative="1" as="geometry">
+            <mxPoint x="400" y="480" as="sourcePoint" />
+            <mxPoint x="450" y="430" as="targetPoint" />
+          </mxGeometry>
+        </mxCell>
+        <mxCell id="manage-expeditions-view-expedition-details" value="&lt;&lt;включает&gt;&gt;" style="endArrow=open;dashed=1;html=1;dashPattern=1 3;strokeWidth=1;rounded=0;exitX=1;exitY=0.5;exitDx=0;exitDy=0;entryX=0;entryY=0.5;entryDx=0;entryDy=0;" edge="1" parent="1" source="manage-expeditions" target="view-expedition-details">
+          <mxGeometry width="50" height="50" relative="1" as="geometry">
+            <mxPoint x="400" y="480" as="sourcePoint" />
+            <mxPoint x="450" y="430" as="targetPoint" />
+          </mxGeometry>
+        </mxCell>
+        <mxCell id="manage-goods-create-good" value="&lt;&lt;включает&gt;&gt;" style="endArrow=open;dashed=1;html=1;dashPattern=1 3;strokeWidth=1;rounded=0;exitX=1;exitY=0.5;exitDx=0;exitDy=0;entryX=0;entryY=0.5;entryDx=0;entryDy=0;" edge="1" parent="1" source="manage-goods" target="create-good">
+          <mxGeometry width="50" height="50" relative="1" as="geometry">
+            <mxPoint x="400" y="530" as="sourcePoint" />
+            <mxPoint x="450" y="480" as="targetPoint" />
+          </mxGeometry>
+        </mxCell>
+        <mxCell id="manage-goods-edit-good" value="&lt;&lt;включает&gt;&gt;" style="endArrow=open;dashed=1;html=1;dashPattern=1 3;strokeWidth=1;rounded=0;exitX=1;exitY=0.5;exitDx=0;exitDy=0;entryX=0;entryY=0.5;entryDx=0;entryDy=0;" edge="1" parent="1" source="manage-goods" target="edit-good">
+          <mxGeometry width="50" height="50" relative="1" as="geometry">
+            <mxPoint x="400" y="530" as="sourcePoint" />
+            <mxPoint x="450" y="480" as="targetPoint" />
+          </mxGeometry>
+        </mxCell>
+        <mxCell id="operator-work-with-expeditions" value="" style="endArrow=classic;html=1;rounded=0;entryX=0;entryY=0.5;entryDx=0;entryDy=0;exitX=0.5;exitY=0.5;exitDx=0;exitDy=0;exitPerimeter=0;" edge="1" parent="1" source="operator" target="work-with-expeditions">
+          <mxGeometry width="50" height="50" relative="1" as="geometry">
+            <mxPoint x="400" y="580" as="sourcePoint" />
+            <mxPoint x="450" y="530" as="targetPoint" />
+          </mxGeometry>
+        </mxCell>
+        <mxCell id="work-with-expeditions-view-checkpoint-expeditions" value="&lt;&lt;включает&gt;&gt;" style="endArrow=open;dashed=1;html=1;dashPattern=1 3;strokeWidth=1;rounded=0;exitX=0.5;exitY=1;exitDx=0;exitDy=0;entryX=1;entryY=0.5;entryDx=0;entryDy=0;" edge="1" parent="1" source="work-with-expeditions" target="view-checkpoint-expeditions">
+          <mxGeometry width="50" height="50" relative="1" as="geometry">
+            <mxPoint x="400" y="580" as="sourcePoint" />
+            <mxPoint x="450" y="530" as="targetPoint" />
+          </mxGeometry>
+        </mxCell>
+        <mxCell id="work-with-expeditions-view-expedition-details-operator" value="&lt;&lt;включает&gt;&gt;" style="endArrow=open;dashed=1;html=1;dashPattern=1 3;strokeWidth=1;rounded=0;exitX=0.5;exitY=1;exitDx=0;exitDy=0;entryX=0.5;entryY=0;entryDx=0;entryDy=0;" edge="1" parent="1" source="work-with-expeditions" target="view-expedition-details-operator">
+          <mxGeometry width="50" height="50" relative="1" as="geometry">
+            <mxPoint x="400" y="580" as="sourcePoint" />
+            <mxPoint x="450" y="530" as="targetPoint" />
+          </mxGeometry>
+        </mxCell>
+        <mxCell id="work-with-expeditions-confirm-expedition" value="&lt;&lt;включает&gt;&gt;" style="endArrow=open;dashed=1;html=1;dashPattern=1 3;strokeWidth=1;rounded=0;exitX=0.5;exitY=1;exitDx=0;exitDy=0;entryX=0.5;entryY=0;entryDx=0;entryDy=0;" edge="1" parent="1" source="view-checkpoint-expeditions" target="confirm-expedition">
+          <mxGeometry width="50" height="50" relative="1" as="geometry">
+            <mxPoint x="400" y="580" as="sourcePoint" />
+            <mxPoint x="450" y="530" as="targetPoint" />
+          </mxGeometry>
+        </mxCell>
+        <mxCell id="work-with-expeditions-cancel-expedition" value="&lt;&lt;включает&gt;&gt;" style="endArrow=open;dashed=1;html=1;dashPattern=1 3;strokeWidth=1;rounded=0;exitX=0.5;exitY=1;exitDx=0;exitDy=0;entryX=0.5;entryY=0;entryDx=0;entryDy=0;" edge="1" parent="1" source="view-checkpoint-expeditions" target="cancel-expedition">
+          <mxGeometry width="50" height="50" relative="1" as="geometry">
+            <mxPoint x="400" y="580" as="sourcePoint" />
+            <mxPoint x="450" y="530" as="targetPoint" />
+          </mxGeometry>
+        </mxCell>
+        <mxCell id="work-with-expeditions-view-confirmation-history" value="&lt;&lt;включает&gt;&gt;" style="endArrow=open;dashed=1;html=1;dashPattern=1 3;strokeWidth=1;rounded=0;exitX=0.5;exitY=1;exitDx=0;exitDy=0;entryX=0.5;entryY=0;entryDx=0;entryDy=0;" edge="1" parent="1" source="view-expedition-details-operator" target="view-confirmation-history">
+          <mxGeometry width="50" height="50" relative="1" as="geometry">
+            <mxPoint x="450" y="680" as="sourcePoint" />
+            <mxPoint x="500" y="630" as="targetPoint" />
+          </mxGeometry>
+        </mxCell>
+        <mxCell id="view-expedition-details-operator-inheritance" value="&lt;&lt;расширяет&gt;&gt;" style="endArrow=block;endSize=16;endFill=0;html=1;rounded=0;dashed=1;exitX=1;exitY=0.5;exitDx=0;exitDy=0;entryX=0;entryY=1;entryDx=0;entryDy=0;" edge="1" parent="1" source="view-expedition-details-operator" target="view-expedition-details">
+          <mxGeometry width="160" relative="1" as="geometry">
+            <mxPoint x="330" y="450" as="sourcePoint" />
+            <mxPoint x="490" y="450" as="targetPoint" />
+          </mxGeometry>
+        </mxCell>
+      </root>
+    </mxGraphModel>
+  </diagram>
+</mxfile>

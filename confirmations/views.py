@@ -41,7 +41,7 @@ class ConfirmationCreateView(generics.CreateAPIView):
             )
         
         # Если статус "подтверждено" и это последняя зона, устанавливаем end_date
-        expedition = get_object_or_404(Expedition, id=serializer.validated_data['expedition'].id)
+        expedition = get_object_or_404(Expedition, id=serializer.validated_data['expedition_id'])
         zone = serializer.validated_data['zone']
         
         # Проверка направления и зоны для завершения экспедиции

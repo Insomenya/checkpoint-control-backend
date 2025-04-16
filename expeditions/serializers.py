@@ -61,13 +61,13 @@ class ExpeditionSerializer(serializers.ModelSerializer):
         model = Expedition
         fields = [
             'id', 'name', 'direction', 'direction_display', 
-            'type', 'type_display', 'sender', 'sender_name', 
-            'receiver', 'receiver_name', 'created_by', 
+            'type', 'type_display', 'sender_id', 'sender_name', 
+            'receiver_id', 'receiver_name', 'created_by', 
             'full_name', 'passport_number', 'phone_number', 
             'license_plate', 'vehicle_model', 'start_date', 
             'end_date', 'invoices', 'sender_id', 'receiver_id'
         ]
-        read_only_fields = ['created_by', 'start_date', 'end_date', 'sender', 'receiver']
+        read_only_fields = ['created_by', 'start_date', 'end_date', 'sender_id', 'receiver_id']
     
     def create(self, validated_data):
         # Получаем ID отправителя и получателя
@@ -122,6 +122,6 @@ class ExpeditionListSerializer(serializers.ModelSerializer):
         model = Expedition
         fields = [
             'id', 'name', 'direction', 'direction_display',
-            'type', 'type_display', 'sender_name', 'receiver_name',
+            'type', 'type_display', 'sender_id', 'sender_name', 'receiver_id', 'receiver_name',
             'full_name', 'start_date'
         ] 

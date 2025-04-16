@@ -11,4 +11,4 @@ class CheckpointSerializer(serializers.ModelSerializer):
     
     class Meta:
         model = Checkpoint
-        fields = ['id', 'name', 'zone', 'zone_name'] 
+        fields = ['id', 'name', 'zone_id', 'zone_name'] 

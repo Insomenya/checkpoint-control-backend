@@ -18,7 +18,7 @@ class ConfirmationSerializer(serializers.ModelSerializer):
     
     class Meta:
         model = Confirmation
-        fields = ['id', 'expedition', 'confirmed_by', 'confirmed_by_username', 'zone', 'zone_name', 'status', 'status_display', 'confirmed_at']
+        fields = ['id', 'expedition_id', 'confirmed_by', 'confirmed_by_username', 'zone_id', 'zone_name', 'status', 'status_display', 'confirmed_at']
         read_only_fields = ['confirmed_by', 'confirmed_at']
 
 class ConfirmationCreateSerializer(serializers.ModelSerializer):
@@ -26,7 +26,7 @@ class ConfirmationCreateSerializer(serializers.ModelSerializer):
     
     class Meta:
         model = Confirmation
-        fields = ['expedition', 'checkpoint_id', 'status']
+        fields = ['expedition_id', 'checkpoint_id', 'status']
     
     def validate(self, attrs):
         checkpoint_id = attrs.pop('checkpoint_id')
@@ -46,4 +46,4 @@ class ConfirmationWithExpeditionSerializer(serializers.ModelSerializer):
     
     class Meta:
         model = Confirmation
-        fields = ['id', 'expedition', 'confirmed_by', 'confirmed_by_username', 'zone', 'zone_name', 'status', 'status_display', 'confirmed_at'] 
+        fields = ['id', 'expedition', 'confirmed_by', 'confirmed_by_username', 'zone_id', 'zone_name', 'status', 'status_display', 'confirmed_at'] 

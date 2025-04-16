@@ -8,7 +8,7 @@ from rest_framework import permissions
 
 schema_view = get_schema_view(
    openapi.Info(
-      title="КПП Контроль API",
+      title="API Системы контроля КПП",
       default_version='v1',
       description="REST API для системы контроля КПП.",
       contact=openapi.Contact(email="admin@checkpoint-control.com"),

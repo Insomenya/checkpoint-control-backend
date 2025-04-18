@@ -7,6 +7,11 @@ from django.shortcuts import get_object_or_404
 from drf_yasg.utils import swagger_auto_schema
 from rest_framework.views import APIView
 from drf_yasg import openapi
+from django.conf import settings
+import logging
+
+# Получаем логгер для приложения authentication
+logger = logging.getLogger(__name__)
 
 User = get_user_model()
 
@@ -47,15 +52,35 @@ class UserSignupView(generics.CreateAPIView):
             # Генерируем уникальный токен для установки пароля
             token = user.generate_password_reset_token()
             
-            # Получаем хост из запроса для формирования полного URL
-            protocol = 'https' if request.is_secure() else 'http'
-            host = request.get_host()
+            # Используем Origin или Referer заголовок для определения хоста фронтенда
+            if 'Origin' in request.headers:
+                # Получаем хост фронтенда из заголовка Origin
+                frontend_url = request.headers['Origin']
+                logger.debug(f"Using Origin header for frontend URL: {frontend_url}")
+            elif 'Referer' in request.headers:
+                # Если Origin нет, пробуем использовать Referer
+                frontend_url = request.headers['Referer']
+                # Удаляем путь из URL, если он есть (оставляем только домен)
+                frontend_url = frontend_url.split('/', 3)[0] + '//' + frontend_url.split('/', 3)[2]
+                logger.debug(f"Using Referer header for frontend URL: {frontend_url}")
+            else:
+                # Если ни Origin, ни Referer не предоставлены, используем хост бэкенда (как было раньше)
+                protocol = 'https' if request.is_secure() else 'http'
+                frontend_url = f"{protocol}://{request.get_host()}"
+                logger.debug(f"Using backend host for frontend URL: {frontend_url}")
+            
+            # Получаем путь к странице установки пароля из настроек
+            password_setup_path = getattr(settings, 'FRONTEND_PASSWORD_SETUP_PATH', '/auth/setpass/')
+            
+            # Формируем полную ссылку с хостом фронтенда
+            signup_link = f"{frontend_url}{password_setup_path}{token}"
+            logger.info(f"User {user.username} created with signup link: {signup_link}")
             
             return Response({
                 "user_id": user.id,
                 "username": user.username,
                 "token": token,
-                "signup_link": f"{protocol}://{host}/auth/setpass/{token}"
+                "signup_link": signup_link
             }, status=status.HTTP_201_CREATED)
         
         return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
@@ -90,28 +115,42 @@ class SetPasswordView(generics.GenericAPIView):
     )
     def post(self, request, token):
         # Ищем пользователя по токену
-        user = get_object_or_404(User, password_reset_token=token)
-        
-        serializer = self.serializer_class(data=request.data)
-        
-        if serializer.is_valid():
-            if user.is_password_set:
+        try:
+            user = get_object_or_404(User, password_reset_token=token)
+            logger.debug(f"Found user {user.username} for password reset token")
+            
+            serializer = self.serializer_class(data=request.data)
+            
+            if serializer.is_valid():
+                if user.is_password_set:
+                    logger.warning(f"User {user.username} already has password set")
+                    return Response(
+                        {"error": "Пароль уже установлен для этого пользователя"},
+                        status=status.HTTP_400_BAD_REQUEST
+                    )
+                
+                # Устанавливаем пароль
+                user.set_password(serializer.validated_data['password'])
+                # Устанавливаем флаг, что пароль установлен
+                user.is_password_set = True
+                # Сохраняем изменения пользователя
+                user.save(update_fields=['password', 'is_password_set'])
+                logger.info(f"Password set for user {user.username}")
+                
+                # Очищаем токен, чтобы его нельзя было использовать повторно
+                user.clear_password_reset_token()
+                logger.debug(f"Password reset token cleared for user {user.username}")
+                
                 return Response(
-                    {"error": "Пароль уже установлен для этого пользователя"},
-                    status=status.HTTP_400_BAD_REQUEST
+                    {"message": "Пароль успешно установлен"},
+                    status=status.HTTP_200_OK
                 )
             
-            user.set_password(serializer.validated_data['password'])
-            user.is_password_set = True
-            # Очищаем токен, чтобы его нельзя было использовать повторно
-            user.clear_password_reset_token()
-            
-            return Response(
-                {"message": "Пароль успешно установлен"},
-                status=status.HTTP_200_OK
-            )
-        
-        return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
+            logger.warning(f"Invalid serializer data: {serializer.errors}")
+            return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
+        except Exception as e:
+            logger.error(f"Error setting password with token {token}: {str(e)}")
+            raise
 
 class UserListView(generics.ListAPIView):
     serializer_class = UserListSerializer

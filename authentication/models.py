@@ -80,3 +80,4 @@ class User(AbstractUser):
         """Очищает токен сброса пароля после его использования"""
         self.password_reset_token = None
         self.save(update_fields=['password_reset_token'])
+        return self

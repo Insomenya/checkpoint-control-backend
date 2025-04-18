@@ -65,7 +65,13 @@ SWAGGER_SETTINGS = {
             'name': 'Authorization',
             'in': 'header'
         }
-    }
+    },
+    'SECURITY_REQUIREMENTS': [
+        {'Bearer': []}
+    ],
+    'USE_SESSION_AUTH': False,
+    'JSON_EDITOR': True,
+    'VALIDATOR_URL': None,
 }
 
 AUTH_USER_MODEL = 'authentication.User'

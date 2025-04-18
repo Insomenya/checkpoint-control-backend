@@ -6,5 +6,6 @@ urlpatterns = [
     path('signup', views.UserSignupView.as_view(), name='user-signup'),
     path('setpass/<str:token>', views.SetPasswordView.as_view(), name='set-password'),
     path('users', views.UserListView.as_view(), name='user-list'),
+    path('stats', views.UserStatsView.as_view(), name='user-stats'),
     path('', include('djoser.urls.jwt')),
 ]

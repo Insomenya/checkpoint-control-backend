@@ -16,6 +16,13 @@ schema_view = get_schema_view(
    ),
    public=True,
    permission_classes=(permissions.AllowAny,),
+   patterns=[
+       path('auth/', include('authentication.urls')),
+       path('', include('organizations.urls')),
+       path('', include('checkpoints.urls')),
+       path('', include('expeditions.urls')),
+       path('', include('confirmations.urls')),
+   ],
 )
 
 urlpatterns = [

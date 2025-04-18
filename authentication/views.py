@@ -9,6 +9,8 @@ from rest_framework.views import APIView
 from drf_yasg import openapi
 from django.conf import settings
 import logging
+from django.db.models import Count
+from .models import User
 
 # Получаем логгер для приложения authentication
 logger = logging.getLogger(__name__)
@@ -160,3 +162,55 @@ class UserListView(generics.ListAPIView):
     @swagger_auto_schema(operation_summary='Получить список пользователей')
     def get(self, request, *args, **kwargs):
         return super().get(request, *args, **kwargs)
+
+class UserStatsView(APIView):
+    permission_classes = [IsAuthenticated, IsAdminUser]
+
+    @swagger_auto_schema(
+        operation_summary='Получить статистику по пользователям',
+        responses={
+            200: openapi.Response(
+                description="Статистика по пользователям",
+                schema=openapi.Schema(
+                    type=openapi.TYPE_OBJECT,
+                    properties={
+                        'total_users': openapi.Schema(type=openapi.TYPE_INTEGER, description='Общее количество пользователей'),
+                        'users_by_role': openapi.Schema(
+                            type=openapi.TYPE_ARRAY,
+                            description='Количество пользователей по ролям',
+                            items=openapi.Schema(
+                                type=openapi.TYPE_OBJECT,
+                                properties={
+                                    'role': openapi.Schema(type=openapi.TYPE_STRING, description='Название роли'),
+                                    'count': openapi.Schema(type=openapi.TYPE_INTEGER, description='Количество пользователей')
+                                }
+                            )
+                        ),
+                        'password_set_count': openapi.Schema(type=openapi.TYPE_INTEGER, description='Количество пользователей, установивших пароль'),
+                        'password_not_set_count': openapi.Schema(type=openapi.TYPE_INTEGER, description='Количество пользователей, не установивших пароль'),
+                        'operators_without_checkpoint_count': openapi.Schema(type=openapi.TYPE_INTEGER, description='Количество операторов без назначенного КПП')
+                    }
+                )
+            )
+        }
+    )
+    def get(self, request):
+        total_users = User.objects.count()
+        
+        users_by_role = User.objects.values('role').annotate(count=Count('role')).order_by('role')
+        roles_dict = dict(User.ROLES)
+        users_by_role_display = [{'role': roles_dict.get(item['role'], item['role']), 'count': item['count']} for item in users_by_role]
+        
+        password_set_count = User.objects.filter(is_password_set=True).count()
+        password_not_set_count = total_users - password_set_count
+        
+        operators_without_checkpoint_count = User.objects.filter(role='operator', checkpoint__isnull=True).count()
+
+        stats = {
+            'total_users': total_users,
+            'users_by_role': users_by_role_display,
+            'password_set_count': password_set_count,
+            'password_not_set_count': password_not_set_count,
+            'operators_without_checkpoint_count': operators_without_checkpoint_count
+        }
+        return Response(stats)

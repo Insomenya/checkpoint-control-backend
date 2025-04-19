@@ -8,6 +8,7 @@ class ZoneSerializer(serializers.ModelSerializer):
 
 class CheckpointSerializer(serializers.ModelSerializer):
     zone_name = serializers.CharField(source='zone.name', read_only=True)
+    zone_id = serializers.PrimaryKeyRelatedField(queryset=Zone.objects.all(), source='zone')
     
     class Meta:
         model = Checkpoint

@@ -370,8 +370,7 @@
 ```json
 {
   "name": "string",
-  "address": "string",
-  "zone": 1
+  "zone_id": 1
 }
 ```
 
@@ -380,8 +379,8 @@
 {
   "id": 1,
   "name": "string",
-  "address": "string",
-  "zone": 1
+  "zone_id": 1,
+  "zone_name": "string"
 }
 ```
 
@@ -395,8 +394,7 @@
 ```json
 {
   "name": "string",
-  "address": "string",
-  "zone": 1
+  "zone_id": 1
 }
 ```
 
@@ -405,8 +403,8 @@
 {
   "id": 1,
   "name": "string",
-  "address": "string",
-  "zone": 1
+  "zone_id": 1,
+  "zone_name": "string"
 }
 ```
 
@@ -428,8 +426,8 @@
 {
   "id": 1,
   "name": "string",
-  "address": "string",
-  "zone": 1
+  "zone_id": 1,
+  "zone_name": "string"
 }
 ```
 

@@ -215,8 +215,7 @@
     "id": 1,
     "name": "string",
     "address": "string",
-    "phone": "string",
-    "contact_person": "string"
+    "contact_phone": "string"
   }
 ]
 ```
@@ -233,8 +232,7 @@
   "id": 1,
   "name": "string",
   "address": "string",
-  "phone": "string",
-  "contact_person": "string"
+  "contact_phone": "string"
 }
 ```
 
@@ -249,8 +247,7 @@
 {
   "name": "string",
   "address": "string",
-  "phone": "string",
-  "contact_person": "string"
+  "contact_phone": "string"
 }
 ```
 
@@ -260,8 +257,7 @@
   "id": 1,
   "name": "string",
   "address": "string",
-  "phone": "string",
-  "contact_person": "string"
+  "contact_phone": "string"
 }
 ```
 
@@ -276,8 +272,7 @@
 {
   "name": "string",
   "address": "string",
-  "phone": "string",
-  "contact_person": "string"
+  "contact_phone": "string"
 }
 ```
 
@@ -287,8 +282,7 @@
   "id": 1,
   "name": "string",
   "address": "string",
-  "phone": "string",
-  "contact_person": "string"
+  "contact_phone": "string"
 }
 ```
 
@@ -311,8 +305,7 @@
   "id": 1,
   "name": "string",
   "address": "string",
-  "phone": "string",
-  "contact_person": "string"
+  "contact_phone": "string"
 }
 ```
 
@@ -338,8 +331,8 @@
   {
     "id": 1,
     "name": "string",
-    "address": "string",
-    "zone": 1
+    "zone_id": 1,
+    "zone_name": "string"
   }
 ]
 ```
@@ -355,8 +348,8 @@
 {
   "id": 1,
   "name": "string",
-  "address": "string",
-  "zone": 1
+  "zone_id": 1,
+  "zone_name": "string"
 }
 ```
 

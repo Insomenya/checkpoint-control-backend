@@ -694,6 +694,100 @@
 }
 ```
 
+### Получение статусов всех экспедиций
+
+**Endpoint:** `GET /expeditions/status`
+
+**Описание:** Получение статусов всех экспедиций, включая последнее подтверждение для каждой.
+
+**Ответ (200):**
+```json
+[
+  {
+    "id": 1,
+    "name": "string",
+    "direction": "string",
+    "direction_display": "string",
+    "type": "string",
+    "type_display": "string",
+    "sender": 1,
+    "sender_name": "string",
+    "receiver": 1,
+    "receiver_name": "string",
+    "created_by": 1,
+    "full_name": "string",
+    "passport_number": "string",
+    "phone_number": "string",
+    "license_plate": "string",
+    "vehicle_model": "string",
+    "start_date": "string",
+    "end_date": "string",
+    "invoices": [],
+    "last_confirmation": {
+      "id": 1,
+      "expedition": {
+        "id": 1,
+        "name": "string"
+      },
+      "confirmed_by": 1,
+      "confirmed_by_username": "string",
+      "zone": 1,
+      "zone_name": "string",
+      "status": "string",
+      "status_display": "string",
+      "confirmed_at": "string"
+    }
+  }
+]
+```
+
+### Получение статусов экспедиций для КПП
+
+**Endpoint:** `GET /expeditions/status/{checkpoint_id}`
+
+**Описание:** Получение статусов экспедиций для конкретного КПП, которые ожидают подтверждения. Направление определяется автоматически для каждой экспедиции (для въезда зоны идут в порядке 1->2->3, для выезда 3->2->1).
+
+**Ответ (200):**
+```json
+[
+  {
+    "id": 1,
+    "name": "string",
+    "direction": "string",
+    "direction_display": "string",
+    "type": "string",
+    "type_display": "string",
+    "sender": 1,
+    "sender_name": "string",
+    "receiver": 1,
+    "receiver_name": "string",
+    "created_by": 1,
+    "full_name": "string",
+    "passport_number": "string",
+    "phone_number": "string",
+    "license_plate": "string",
+    "vehicle_model": "string",
+    "start_date": "string",
+    "end_date": "string",
+    "invoices": [],
+    "last_confirmation": {
+      "id": 1,
+      "expedition": {
+        "id": 1,
+        "name": "string"
+      },
+      "confirmed_by": 1,
+      "confirmed_by_username": "string",
+      "zone": 1,
+      "zone_name": "string",
+      "status": "string",
+      "status_display": "string",
+      "confirmed_at": "string"
+    }
+  }
+]
+```
+
 ## Товары
 
 ### Получение списка ТМЦ

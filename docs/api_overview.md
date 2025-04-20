@@ -47,6 +47,8 @@
 | GET | `/expeditions/{checkpoint_id}` | Получение списка экспедиций для КПП |
 | GET | `/expeditions/brief/{checkpoint_id}` | Получение списка ID экспедиций для КПП |
 | GET | `/expedition/status/{expedition_id}` | Получение статуса экспедиции |
+| GET | `/expeditions/status` | Получение статусов всех экспедиций |
+| GET | `/expeditions/status/{checkpoint_id}` | Получение статусов экспедиций для КПП |
 
 ## Товары (ТМЦ)
 

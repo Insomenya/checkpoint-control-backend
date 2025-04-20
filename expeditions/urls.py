@@ -3,7 +3,8 @@ from rest_framework.routers import DefaultRouter
 from .views import (
     GoodViewSet, ExpeditionCreateView, ExpeditionDetailView, 
     ExpeditionListView, CheckpointExpeditionsView, 
-    CheckpointExpeditionsIdsView, ExpeditionStatusView
+    CheckpointExpeditionsIdsView, ExpeditionStatusView,
+    ExpeditionsStatusView, CheckpointExpeditionsStatusView
 )
 
 router = DefaultRouter()
@@ -17,4 +18,6 @@ urlpatterns = [
     path('expeditions/<int:checkpoint_id>', CheckpointExpeditionsView.as_view(), name='checkpoint-expeditions'),
     path('expeditions/brief/<int:checkpoint_id>', CheckpointExpeditionsIdsView.as_view(), name='checkpoint-expeditions-ids'),
     path('expedition/status/<int:expedition_id>', ExpeditionStatusView.as_view(), name='expedition-status'),
+    path('expeditions/status', ExpeditionsStatusView.as_view(), name='expeditions-status-list'),
+    path('expeditions/status/<int:checkpoint_id>', CheckpointExpeditionsStatusView.as_view(), name='checkpoint-expeditions-status'),
 ] 

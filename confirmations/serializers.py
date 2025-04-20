@@ -1,6 +1,7 @@
 from rest_framework import serializers
 from .models import Confirmation
 from checkpoints.models import Checkpoint, Zone
+from expeditions.models import Expedition
 
 class ExpeditionMinimalSerializer(serializers.Serializer):
     """Минимальная информация об экспедиции для вложения в подтверждение"""
@@ -23,20 +24,32 @@ class ConfirmationSerializer(serializers.ModelSerializer):
 
 class ConfirmationCreateSerializer(serializers.ModelSerializer):
     checkpoint_id = serializers.IntegerField(write_only=True)
+    expedition_id = serializers.IntegerField(required=True, write_only=True)
     
     class Meta:
         model = Confirmation
         fields = ['expedition_id', 'checkpoint_id', 'status']
     
     def validate(self, attrs):
+        expedition_id = attrs.get('expedition_id')
+        try:
+            Expedition.objects.get(id=expedition_id)
+        except Expedition.DoesNotExist:
+            raise serializers.ValidationError({"expedition_id": "Экспедиция не найдена"})
+        
         checkpoint_id = attrs.pop('checkpoint_id')
         checkpoint = Checkpoint.objects.get(id=checkpoint_id)
         attrs['zone'] = checkpoint.zone
         return attrs
     
     def create(self, validated_data):
-        # Поле confirmed_by будет установлено в представлении
-        return Confirmation.objects.create(**validated_data)
+        expedition_id = validated_data.pop('expedition_id')
+        expedition = Expedition.objects.get(id=expedition_id)
+        
+        return Confirmation.objects.create(
+            expedition=expedition,
+            **validated_data
+        )
 
 class ConfirmationWithExpeditionSerializer(serializers.ModelSerializer):
     status_display = serializers.CharField(source='get_status_display', read_only=True)

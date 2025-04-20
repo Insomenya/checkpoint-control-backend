@@ -828,7 +828,6 @@
 ```json
 {
   "expedition_id": 1,
-  "zone_id": 1,
   "checkpoint_id": 1,
   "status": "confirmed"
 }
@@ -838,13 +837,10 @@
 ```json
 {
   "id": 1,
-  "expedition": {
-    "id": 1,
-    "name": "string"
-  },
+  "expedition_id": 1,
   "confirmed_by": 1,
   "confirmed_by_username": "string",
-  "zone": 1,
+  "zone_id": 1,
   "zone_name": "string",
   "status": "string",
   "status_display": "string",

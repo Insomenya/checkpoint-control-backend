@@ -56,6 +56,7 @@ class ExpeditionSerializer(serializers.ModelSerializer):
     # Поля для создания экспедиции с накладными и товарами
     sender_id = serializers.IntegerField(write_only=True)
     receiver_id = serializers.IntegerField(write_only=True)
+    invoices_data = serializers.ListField(write_only=True, required=False)
     
     class Meta:
         model = Expedition
@@ -65,9 +66,10 @@ class ExpeditionSerializer(serializers.ModelSerializer):
             'receiver_id', 'receiver_name', 'created_by', 
             'full_name', 'passport_number', 'phone_number', 
             'license_plate', 'vehicle_model', 'start_date', 
-            'end_date', 'invoices', 'sender_id', 'receiver_id'
+            'end_date', 'invoices', 'sender_id', 'receiver_id',
+            'invoices_data'
         ]
-        read_only_fields = ['created_by', 'start_date', 'end_date', 'sender_id', 'receiver_id']
+        read_only_fields = ['created_by', 'start_date', 'end_date']
     
     def create(self, validated_data):
         # Получаем ID отправителя и получателя
@@ -79,7 +81,7 @@ class ExpeditionSerializer(serializers.ModelSerializer):
         receiver = Organization.objects.get(id=receiver_id)
         
         # Извлекаем данные о накладных
-        invoices_data = validated_data.pop('invoices', [])
+        invoices_data = validated_data.pop('invoices_data', [])
         
         # Создаем экспедицию
         expedition = Expedition.objects.create(

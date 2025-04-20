@@ -72,6 +72,7 @@ class ExpeditionCreateView(generics.CreateAPIView):
                 'passport_number': openapi.Schema(type=openapi.TYPE_STRING, description='Номер паспорта'),
                 'invoices': openapi.Schema(
                     type=openapi.TYPE_ARRAY,
+                    description='Список накладных с товарами',
                     items=openapi.Schema(
                         type=openapi.TYPE_OBJECT,
                         required=['number', 'cargo_description', 'goods'],
@@ -98,7 +99,12 @@ class ExpeditionCreateView(generics.CreateAPIView):
         )
     )
     def post(self, request, *args, **kwargs):
-        serializer = self.get_serializer(data=request.data)
+        # Преобразуем данные о накладных в правильный формат
+        data = request.data.copy()
+        if 'invoices' in data:
+            data['invoices_data'] = data.pop('invoices')
+        
+        serializer = self.get_serializer(data=data)
         serializer.is_valid(raise_exception=True)
         
         # Добавляем пользователя и текущую дату

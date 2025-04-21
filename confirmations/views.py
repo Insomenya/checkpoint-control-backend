@@ -22,17 +22,14 @@ class ConfirmationCreateView(generics.CreateAPIView):
         serializer = self.get_serializer(data=request.data)
         serializer.is_valid(raise_exception=True)
         
-        # Добавляем пользователя, который подтверждает экспедицию
         serializer.validated_data['confirmed_by'] = request.user
         
-        # Проверяем, что пользователь - оператор КПП
         if request.user.role != 'operator':
             return Response(
                 {"error": "Только операторы КПП могут подтверждать экспедиции"},
                 status=status.HTTP_403_FORBIDDEN
             )
         
-        # Проверяем, что оператор работает на указанном КПП
         checkpoint_id = request.data.get('checkpoint_id')
         if request.user.checkpoint.id != int(checkpoint_id):
             return Response(
@@ -40,12 +37,10 @@ class ConfirmationCreateView(generics.CreateAPIView):
                 status=status.HTTP_403_FORBIDDEN
             )
         
-        # Если статус "подтверждено" и это последняя зона, устанавливаем end_date
         expedition_id = serializer.initial_data.get('expedition_id')
         expedition = get_object_or_404(Expedition, id=expedition_id)
         zone = serializer.validated_data['zone']
         
-        # Проверка направления и зоны для завершения экспедиции
         if (serializer.validated_data['status'] == 'confirmed' and 
             ((expedition.direction == 'IN' and zone.id == 3) or 
              (expedition.direction == 'OUT' and zone.id == 1))):

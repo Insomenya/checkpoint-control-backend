@@ -152,11 +152,8 @@ class CheckpointExpeditionsView(generics.ListAPIView):
         checkpoint = get_object_or_404(Checkpoint, id=checkpoint_id)
         zone = checkpoint.zone
         
-        # Получаем все экспедиции, которые не имеют подтверждения в текущей зоне,
-        # но имеют подтверждение в предыдущей зоне
-        if zone.id == 1:  # Первая зона (КПП охраны)
+        if zone.id == 1:
             if self.request.query_params.get('direction') == 'OUT':
-                # Для выезда: экспедиции, подтвержденные в зоне 2, но не в зоне 1
                 confirmed_in_zone_2 = Confirmation.objects.filter(
                     zone_id=2, 
                     status='confirmed'
@@ -175,7 +172,6 @@ class CheckpointExpeditionsView(generics.ListAPIView):
                     direction='OUT'
                 )
             else:
-                # Для въезда: экспедиции без подтверждений в зоне 1
                 confirmed_expeditions = Confirmation.objects.filter(
                     status__in=['confirmed', 'cancelled']
                 ).values_list('expedition_id', flat=True)
@@ -186,9 +182,8 @@ class CheckpointExpeditionsView(generics.ListAPIView):
                     id__in=confirmed_expeditions
                 )
         
-        elif zone.id == 2:  # Вторая зона (Бюро пропусков)
+        elif zone.id == 2:
             if self.request.query_params.get('direction') == 'OUT':
-                # Для выезда: экспедиции, подтвержденные в зоне 3, но не в зоне 2
                 confirmed_in_zone_3 = Confirmation.objects.filter(
                     zone_id=3, 
                     status='confirmed'
@@ -207,7 +202,6 @@ class CheckpointExpeditionsView(generics.ListAPIView):
                     direction='OUT'
                 )
             else:
-                # Для въезда: экспедиции, подтвержденные в зоне 1, но не в зоне 2
                 confirmed_in_zone_1 = Confirmation.objects.filter(
                     zone_id=1, 
                     status='confirmed'
@@ -226,9 +220,8 @@ class CheckpointExpeditionsView(generics.ListAPIView):
                     direction='IN'
                 )
         
-        elif zone.id == 3:  # Третья зона (Склад)
+        elif zone.id == 3:
             if self.request.query_params.get('direction') == 'OUT':
-                # Для выезда: экспедиции без подтверждений в зоне 3
                 all_out_expeditions = Expedition.objects.filter(direction='OUT')
                 
                 confirmed_in_zone_3 = Confirmation.objects.filter(
@@ -238,7 +231,6 @@ class CheckpointExpeditionsView(generics.ListAPIView):
                 
                 return all_out_expeditions.exclude(id__in=confirmed_in_zone_3)
             else:
-                # Для въезда: экспедиции, подтвержденные в зоне 2, но не в зоне 3
                 confirmed_in_zone_2 = Confirmation.objects.filter(
                     zone_id=2, 
                     status='confirmed'
@@ -269,7 +261,6 @@ class CheckpointExpeditionsIdsView(generics.ListAPIView):
     def get(self, request, checkpoint_id):
         checkpoint = get_object_or_404(Checkpoint, id=checkpoint_id)
         
-        # Используем ту же логику, что и в CheckpointExpeditionsView
         view = CheckpointExpeditionsView()
         view.kwargs = {'checkpoint_id': checkpoint_id}
         view.request = request
@@ -289,16 +280,13 @@ class ExpeditionStatusView(generics.RetrieveAPIView):
     def get(self, request, expedition_id):
         expedition = get_object_or_404(Expedition, id=expedition_id)
         
-        # Получаем последнее подтверждение для экспедиции
         last_confirmation = Confirmation.objects.filter(
             expedition=expedition
         ).order_by('-confirmed_at').first()
         
-        # Сериализуем экспедицию
         expedition_serializer = ExpeditionSerializer(expedition)
         response_data = expedition_serializer.data
         
-        # Добавляем данные о подтверждении, если оно есть
         if last_confirmation:
             confirmation_serializer = ConfirmationWithExpeditionSerializer(last_confirmation)
             response_data['last_confirmation'] = confirmation_serializer.data
@@ -319,16 +307,13 @@ class ExpeditionsStatusView(generics.ListAPIView):
         result = []
         
         for expedition in expeditions:
-            # Получаем последнее подтверждение для экспедиции
             last_confirmation = Confirmation.objects.filter(
                 expedition=expedition
             ).order_by('-confirmed_at').first()
             
-            # Сериализуем экспедицию
             expedition_serializer = ExpeditionSerializer(expedition)
             response_data = expedition_serializer.data
             
-            # Добавляем данные о подтверждении, если оно есть
             if last_confirmation:
                 confirmation_serializer = ConfirmationWithExpeditionSerializer(last_confirmation)
                 response_data['last_confirmation'] = confirmation_serializer.data
@@ -351,18 +336,11 @@ class CheckpointExpeditionsStatusView(generics.ListAPIView):
         zone = checkpoint.zone
         result = []
         
-        # Вместо использования CheckpointExpeditionsView, реализуем отдельную логику без учета параметра direction
-        # Для въезда: зоны идут в порядке 1 -> 2 -> 3
-        # Для выезда: зоны идут в порядке 3 -> 2 -> 1
-        
-        # Экспедиции на въезд (IN)
         in_expeditions = Expedition.objects.filter(direction='IN')
         
-        # Экспедиции на выезд (OUT)
         out_expeditions = Expedition.objects.filter(direction='OUT')
         
-        if zone.id == 1:  # Первая зона (КПП охраны)
-            # Для выезда (OUT): экспедиции, подтвержденные в зоне 2, но не в зоне 1
+        if zone.id == 1:
             confirmed_in_zone_2 = Confirmation.objects.filter(
                 zone_id=2, 
                 status='confirmed'
@@ -379,7 +357,6 @@ class CheckpointExpeditionsStatusView(generics.ListAPIView):
                 id__in=confirmed_in_zone_1
             )
             
-            # Для въезда (IN): экспедиции без подтверждений в зоне 1
             all_confirmed_in_zone_1 = Confirmation.objects.filter(
                 zone_id=1,
                 status__in=['confirmed', 'cancelled']
@@ -391,8 +368,7 @@ class CheckpointExpeditionsStatusView(generics.ListAPIView):
             
             pending_expeditions = list(in_pending) + list(out_pending)
             
-        elif zone.id == 2:  # Вторая зона (Бюро пропусков)
-            # Для выезда (OUT): экспедиции, подтвержденные в зоне 3, но не в зоне 2
+        elif zone.id == 2:
             confirmed_in_zone_3 = Confirmation.objects.filter(
                 zone_id=3, 
                 status='confirmed'
@@ -409,7 +385,6 @@ class CheckpointExpeditionsStatusView(generics.ListAPIView):
                 id__in=confirmed_in_zone_2
             )
             
-            # Для въезда (IN): экспедиции, подтвержденные в зоне 1, но не в зоне 2
             confirmed_in_zone_1 = Confirmation.objects.filter(
                 zone_id=1, 
                 status='confirmed'
@@ -428,8 +403,7 @@ class CheckpointExpeditionsStatusView(generics.ListAPIView):
             
             pending_expeditions = list(in_pending) + list(out_pending)
             
-        elif zone.id == 3:  # Третья зона (Склад)
-            # Для выезда (OUT): экспедиции без подтверждений в зоне 3
+        elif zone.id == 3:
             confirmed_in_zone_3 = Confirmation.objects.filter(
                 zone_id=3, 
                 status__in=['confirmed', 'cancelled']
@@ -437,7 +411,6 @@ class CheckpointExpeditionsStatusView(generics.ListAPIView):
             
             out_pending = out_expeditions.exclude(id__in=confirmed_in_zone_3)
             
-            # Для въезда (IN): экспедиции, подтвержденные в зоне 2, но не в зоне 3
             confirmed_in_zone_2 = Confirmation.objects.filter(
                 zone_id=2, 
                 status='confirmed'
@@ -459,16 +432,13 @@ class CheckpointExpeditionsStatusView(generics.ListAPIView):
             pending_expeditions = []
         
         for expedition in pending_expeditions:
-            # Получаем последнее подтверждение для экспедиции
             last_confirmation = Confirmation.objects.filter(
                 expedition=expedition
             ).order_by('-confirmed_at').first()
             
-            # Сериализуем экспедицию
             expedition_serializer = ExpeditionSerializer(expedition)
             response_data = expedition_serializer.data
             
-            # Добавляем данные о подтверждении, если оно есть
             if last_confirmation:
                 confirmation_serializer = ConfirmationWithExpeditionSerializer(last_confirmation)
                 response_data['last_confirmation'] = confirmation_serializer.data

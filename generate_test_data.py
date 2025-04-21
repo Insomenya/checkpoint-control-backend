@@ -4,11 +4,9 @@ import django
 import random
 from datetime import date, datetime, timedelta
 
-# Устанавливаем настройки Django
 os.environ.setdefault('DJANGO_SETTINGS_MODULE', 'checkpoint_control.settings')
 django.setup()
 
-# Импортируем модели после инициализации Django
 from django.contrib.auth import get_user_model
 from organizations.models import Organization
 from checkpoints.models import Zone, Checkpoint
@@ -88,7 +86,6 @@ def create_checkpoints(zones):
 
 def create_users(checkpoints):
     """Создание тестовых пользователей (операторов и логистов)"""
-    # Создаем операторов
     operators = [
         {'username': 'operator1', 'role': 'operator', 'checkpoint': checkpoints[0]},
         {'username': 'operator2', 'role': 'operator', 'checkpoint': checkpoints[1]},
@@ -98,7 +95,6 @@ def create_users(checkpoints):
         {'username': 'operator6', 'role': 'operator', 'checkpoint': checkpoints[5]}
     ]
     
-    # Создаем логистов
     logisticians = [
         {'username': 'logist1', 'role': 'logistician'},
         {'username': 'logist2', 'role': 'logistician'}
@@ -106,7 +102,6 @@ def create_users(checkpoints):
     
     created_users = []
     
-    # Создаем операторов
     for operator_data in operators:
         user, created = User.objects.get_or_create(
             username=operator_data['username'],
@@ -126,7 +121,6 @@ def create_users(checkpoints):
         
         created_users.append(user)
     
-    # Создаем логистов
     for logist_data in logisticians:
         user, created = User.objects.get_or_create(
             username=logist_data['username'],
@@ -211,36 +205,28 @@ def create_goods():
 
 def create_expeditions(organizations, users, goods):
     """Создание тестовых экспедиций с накладными и товарами"""
-    # Получаем логистов
     logisticians = [user for user in users if user.role == 'logistician']
     
-    # Создаем 20 экспедиций
     created_expeditions = []
     
     for i in range(1, 21):
-        # Выбираем случайные организации для отправителя и получателя
         sender = random.choice(organizations)
         receiver = random.choice([org for org in organizations if org != sender])
         
-        # Выбираем случайного логиста
         created_by = random.choice(logisticians)
         
-        # Определяем направление и тип
         direction = random.choice(['IN', 'OUT'])
         exp_type = random.choice(['auto', 'selfauto', 'selfout'])
         
-        # Генерируем данные для водителя и транспорта
         full_name = f"Водитель {i}"
         passport_number = f"45{i:02d} {500000 + i:06d}"
         phone_number = f"+7(9{i%10}0){i:02d}-{i*5:02d}-{i*7:02d}"
         license_plate = f"А{100+i} АА 77"
         vehicle_model = random.choice(["ГАЗель", "КАМАЗ", "МАЗ", "Ford Transit", "Volvo", "MAN"])
         
-        # Дата начала - от 30 дней назад до сегодня
         days_ago = random.randint(0, 30)
         start_date = date.today() - timedelta(days=days_ago)
         
-        # Создаем экспедицию
         expedition = Expedition.objects.create(
             name=f"Экспедиция №{i}",
             direction=direction,
@@ -259,7 +245,6 @@ def create_expeditions(organizations, users, goods):
         created_expeditions.append(expedition)
         print(f"Создана экспедиция: {expedition.name} ({expedition.get_direction_display()}, {expedition.get_type_display()})")
         
-        # Создаем от 1 до 3 накладных для каждой экспедиции
         num_invoices = random.randint(1, 3)
         for j in range(1, num_invoices + 1):
             invoice = Invoice.objects.create(
@@ -268,7 +253,6 @@ def create_expeditions(organizations, users, goods):
                 cargo_description=f"Описание груза для накладной ТТН-{i}-{j}"
             )
             
-            # Создаем от 1 до 5 позиций товаров для каждой накладной
             num_goods = random.randint(1, 5)
             selected_goods = random.sample(goods, num_goods)
             
@@ -288,29 +272,23 @@ def create_expeditions(organizations, users, goods):
 
 def create_confirmations(expeditions, users, zones):
     """Создание тестовых подтверждений для экспедиций"""
-    # Получаем операторов
     operators = [user for user in users if user.role == 'operator']
     
     created_confirmations = []
     
-    # Для половины экспедиций создаем подтверждения
     for expedition in expeditions[:len(expeditions)//2]:
-        # Определяем последовательность зон в зависимости от направления
         if expedition.direction == 'IN':
-            zone_sequence = zones[:3]  # КПП охраны -> Бюро пропусков -> Склад
+            zone_sequence = zones[:3]
         else:
-            zone_sequence = zones[2::-1]  # Склад -> Бюро пропусков -> КПП охраны
+            zone_sequence = zones[2::-1]
         
-        # Создаем от 1 до 3 подтверждений для экспедиции (в зависимости от прогресса)
         num_confirmations = random.randint(1, len(zone_sequence))
         
-        # Смещение времени для подтверждений
         time_offset = 0
         
         for i in range(num_confirmations):
             zone = zone_sequence[i]
             
-            # Выбираем оператора из соответствующей зоны
             zone_operators = [op for op in operators if op.checkpoint.zone == zone]
             if not zone_operators:
                 continue
@@ -318,9 +296,8 @@ def create_confirmations(expeditions, users, zones):
             confirmed_by = random.choice(zone_operators)
             status = random.choices(['confirmed', 'cancelled'], weights=[0.9, 0.1])[0]
             
-            # Создаем дату подтверждения
             confirmed_at = datetime.now() - timedelta(days=random.randint(0, 20), hours=time_offset)
-            time_offset += random.randint(1, 12)  # Добавляем от 1 до 12 часов для следующего подтверждения
+            time_offset += random.randint(1, 12)
             
             confirmation = Confirmation.objects.create(
                 expedition=expedition,
@@ -333,12 +310,10 @@ def create_confirmations(expeditions, users, zones):
             created_confirmations.append(confirmation)
             print(f"Создано подтверждение: {confirmation} ({confirmation.get_status_display()})")
             
-            # Если статус отмены, прекращаем цепочку подтверждений
             if status == 'cancelled':
                 break
         
-        # Если экспедиция завершена, устанавливаем end_date
-        if num_confirmations == len(zone_sequence) and zone_sequence[-1] == zones[0]:  # КПП охраны
+        if num_confirmations == len(zone_sequence) and zone_sequence[-1] == zones[0]:
             if expedition.direction == 'OUT':
                 expedition.end_date = date.today() - timedelta(days=random.randint(0, 10))
                 expedition.save()

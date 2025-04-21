@@ -181,7 +181,6 @@ MEDIA_ROOT = BASE_DIR /''
 
 DEFAULT_AUTO_FIELD = 'django.db.models.BigAutoField'
 
-# Настройки логирования
 LOGGING = {
     'version': 1,
     'disable_existing_loggers': False,

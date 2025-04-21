@@ -53,7 +53,6 @@ class ExpeditionSerializer(serializers.ModelSerializer):
     direction_display = serializers.CharField(source='get_direction_display', read_only=True)
     type_display = serializers.CharField(source='get_type_display', read_only=True)
     
-    # Поля для создания экспедиции с накладными и товарами
     sender_id = serializers.IntegerField(write_only=True)
     receiver_id = serializers.IntegerField(write_only=True)
     invoices_data = serializers.ListField(write_only=True, required=False)
@@ -72,31 +71,25 @@ class ExpeditionSerializer(serializers.ModelSerializer):
         read_only_fields = ['created_by', 'start_date', 'end_date']
     
     def create(self, validated_data):
-        # Получаем ID отправителя и получателя
         sender_id = validated_data.pop('sender_id')
         receiver_id = validated_data.pop('receiver_id')
         
-        # Получаем объекты организаций
         sender = Organization.objects.get(id=sender_id)
         receiver = Organization.objects.get(id=receiver_id)
         
-        # Извлекаем данные о накладных
         invoices_data = validated_data.pop('invoices_data', [])
         
-        # Создаем экспедицию
         expedition = Expedition.objects.create(
             sender=sender,
             receiver=receiver,
             **validated_data
         )
         
-        # Создаем накладные и связанные товары
         for invoice_data in invoices_data:
             goods_data = invoice_data.pop('goods', [])
             invoice = Invoice.objects.create(expedition=expedition, **invoice_data)
             
             for good_data in goods_data:
-                # Создаем или получаем существующий товар
                 good, _ = Good.objects.get_or_create(
                     name=good_data['name'],
                     defaults={
@@ -105,7 +98,6 @@ class ExpeditionSerializer(serializers.ModelSerializer):
                     }
                 )
                 
-                # Создаем связь между накладной и товаром
                 InvoiceGood.objects.create(
                     invoice=invoice,
                     good=good,

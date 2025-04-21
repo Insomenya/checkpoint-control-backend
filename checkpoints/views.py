@@ -5,7 +5,6 @@ from .models import Zone, Checkpoint
 from .serializers import ZoneSerializer, CheckpointSerializer
 from drf_yasg.utils import swagger_auto_schema
 
-# Create your views here.
 
 class CheckpointViewSet(viewsets.ModelViewSet):
     """
